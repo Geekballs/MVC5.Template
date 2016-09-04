@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@AppConfig.AppName - @ViewBag.Title</title>
+
+    <link href="~/Assets/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Assets/dist/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Assets/dist/css/app.css" rel="stylesheet" />
+
+    <!--[if lt IE 9]>
+        <script src="~/Assets/dist/js/html5shiv.min.js"></script>
+        <script src="~/Assets/dist/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div id="alert-container"></div>
+    <div class="header-container">@Html.Action("Header", "Layout")</div>
+    @*<div class="sub-navigation-container">@Html.Action("SubNavigation", "Layout")</div>*@
+    <div class="clearfix"></div>
+    <div class="view-container">@RenderBody()</div>
+    <div class="footer-container">@Html.Action("Footer", "Layout")</div>
+
+    <a id="scroll-to-top" href="#top" class="btn btn-dark btn-lg"><i class="fa fa-chevron-up fa-fw fa-1x text-success"></i></a>
+
+    <div class="modal fade" id="modal-small" tabindex="-1" role="dialog" aria-labelledby="modal-confirm-label" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-large" tabindex="-1" role="dialog" aria-labelledby="modal-detail-label" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Assets/dist/js/jquery.min.js"></script>
+    <script src="~/Assets/dist/js/jquery.validate.min.js"></script>
+    <script src="~/Assets/dist/js/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Assets/dist/js/bootstrap.min.js"></script>
+    <script src="~/Assets/dist/js/app.js"></script>
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

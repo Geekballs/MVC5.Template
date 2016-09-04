@@ -1,0 +1,39 @@
+﻿@model App.Web.Lib.ViewModels.UserVm.Detail
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Usersssssssss</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserEnabled)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserLocked)
+        </dd>
+
+    </dl>
+    @foreach (var i in Model.UserRolesDetail)
+    {
+        <p>@i.RoleName</p>
+        <p>@i.RoleId</p>
+    }
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.UserId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,188 @@
+﻿using System;
+using System.Linq;
+using System.Net;
+using System.Web.Mvc;
+using App.Web.Lib.ViewModels;
+using X.PagedList;
+
+namespace App.Web.Lib.Controllers
+{
+    [RoutePrefix("Role-Admin")]
+    public class RoleController : BaseController
+    {
+        #region Index
+
+        [Route("All"), HttpGet]
+        public ActionResult Index(string term, int? page)
+        {
+            var model = TheRoleManager.GetAllRoles().Select(x => new RoleVm.Index()
+            {
+                RoleId = x.RoleId,
+                RoleName = x.Name,
+                RoleDescription = x.Description,
+                RoleUserCount = x.UserRoles.Count,
+                RoleLocked = x.Locked,
+                RoleEnabled = x.Enabled
+            });
+
+            if (!string.IsNullOrEmpty(term))
+            {
+                model = model.Where(s => s.RoleName.Contains(term) || s.RoleDescription.Contains(term));
+            }
+
+            var pageNo = page ?? 1;
+            var pagedData = model.ToPagedList(pageNo, AppConfig.PageSize);
+            ViewBag.Data = pagedData;
+
+            return View("Index", pagedData);
+        }
+
+        #endregion
+
+        #region Detail 
+
+        [Route("Detail/{id}"), HttpGet]
+        public ActionResult Detail(Guid? id)
+        {
+            if (id == null)
+            {
+                GetAlert(Danger, "ID cannot e null!");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var role = TheRoleManager.GetRoleById(id);
+            if (role == null)
+            {
+                GetAlert(Danger, "Role cannot be found!");
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            var model = new RoleVm.Detail()
+            {
+                RoleId = role.RoleId,
+                RoleName = role.Name,
+                RoleDescription = role.Description,
+                RoleEnabled = role.Enabled,
+                RoleLocked = role.Locked
+            };
+            var roleUsers = TheRoleManager.GeUsersInRole(id);
+            var userDetail = roleUsers.Select(x => new RoleVm.RoleUsersDetail()
+            {
+                UserId = x.UserId,
+                UserName = x.User.Name
+
+            }).ToList();
+
+            model.RoleUsersDetail = userDetail;
+            return View("Detail", model);
+        }
+
+        #endregion
+
+        #region Create
+
+        [Route("Create"), HttpGet]
+        public ActionResult Create()
+        {
+            var model = new RoleVm.Create();
+            return View("Create", model);
+        }
+
+        [Route("Create"), HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Create(RoleVm.Create model)
+        {
+            if (ModelState.IsValid)
+            {
+                TheRoleManager.CreateRole(model.RoleName, model.RoleDescription);
+                GetAlert(Success, "Role created!");
+                return RedirectToAction("Index");
+            }
+            GetAlert(Danger, "Error!");
+            return View("Create", model);
+        }
+
+        #endregion
+
+        #region Update
+
+        [Route("Edit/{id}"), HttpGet]
+        public ActionResult Edit(Guid? id)
+        {
+            if (id == null)
+            {
+                GetAlert(Danger, "ID cannot e null!");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var role = TheRoleManager.GetRoleById(id);
+            if (role == null)
+            {
+                GetAlert(Danger, "Role cannot be found!");
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            var model = new RoleVm.Edit()
+            {
+                RoleId = role.RoleId,
+                RoleName = role.Name,
+                RoleDescription = role.Description,
+                RoleEnabled = role.Enabled,
+                RoleLocked = role.Locked
+            };
+            return View("Edit", model);
+        }
+
+        [Route("Edit/{id}"), HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Edit(RoleVm.Edit model)
+        {
+            if (ModelState.IsValid)
+            {
+                TheRoleManager.UpdateRole(model.RoleId, model.RoleName, model.RoleDescription, model.RoleEnabled, model.RoleLocked);
+                GetAlert(Success, "Role updated!");
+                return RedirectToAction("Index");
+            }
+            GetAlert(Danger, "Error!");
+            return View("Edit", model);
+        }
+
+        #endregion
+
+        #region Delete
+
+        [Route("Delete/{id}"), HttpGet]
+        public ActionResult Delete(Guid? id)
+        {
+            if (id == null)
+            {
+                GetAlert(Danger, "ID cannot be null!");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var role = TheRoleManager.GetRoleById(id);
+            if (role == null)
+            {
+                GetAlert(Danger, "Role cannot be found!");
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            var model = new RoleVm.Delete()
+            {
+                RoleId = role.RoleId,
+                Name = role.Name,
+                Description = role.Description,
+                RoleEnabled = role.Enabled,
+                RoleLocked = role.Locked
+            };
+            return View("Delete", model);
+        }
+
+        [Route("Delete/{id}"), HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Delete(RoleVm.Delete model)
+        {
+            if (ModelState.IsValid)
+            {
+                TheRoleManager.DeleteRole(model.RoleId);
+                GetAlert(Success, "Role deleted!");
+                return RedirectToAction("Index");
+            }
+            GetAlert(Danger, "Error!");
+            return View("Delete", model);
+        }
+
+        #endregion
+    }
+}

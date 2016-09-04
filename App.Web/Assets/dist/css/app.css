@@ -1,0 +1,258 @@
+﻿/* -------------------------------------------------- */
+/* base                                               */
+/* -------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+    overflow: -moz-scrollbars-vertical;
+    overflow-y: scroll;
+}
+
+.body-content {
+    padding-top: 1px;
+    padding-bottom: 150px;
+}
+
+body > .container-fluid {
+    padding: 5px 15px 0;
+}
+.page-container {
+    margin-top: 67px;
+}
+
+/* -------------------------------------------------- */
+/* footer                                             */
+/* -------------------------------------------------- */
+.container-fluid .text-muted {
+    margin: 20px 0;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #1c1e22;
+    border-top: 1px solid #3e444c;
+    border-bottom: 1px solid #3e444c;
+}
+/* -------------------------------------------------- */
+
+/* -------------------------------------------------- */
+/* scroll to top                                      */
+/* -------------------------------------------------- */
+#scroll-to-top {
+    display: none;
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+    background-color: #000000;
+}
+/* -------------------------------------------------- */
+
+/* -------------------------------------------------- */
+/* layout                                             */
+/* -------------------------------------------------- */
+.col-centered {
+    float: none;
+    margin: 0 auto;
+}
+/* -------------------------------------------------- */
+
+/* -------------------------------------------------- */
+/* forms                                              */
+/* -------------------------------------------------- */
+#sign-in-form {
+    padding-top: 50px;
+}
+
+#sign-out-form {
+    padding: 2px 15px 8px 15px;
+}
+/* -------------------------------------------------- */
+
+/* -------------------------------------------------- */
+/* table                                              */
+/* -------------------------------------------------- */
+table tr td:last-child {
+    white-space: nowrap;
+    width: 1px;
+}
+
+.table tbody > tr > td.vert-align {
+    vertical-align: middle;
+}
+/* -------------------------------------------------- */
+
+/* -------------------------------------------------- */
+/* floating alert                                     */
+/* -------------------------------------------------- */
+.alert-float {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    margin-left: -25%;
+    width: 50%;
+    z-index: 9999;
+    text-transform: uppercase;
+    font-weight: bold;
+    height: 50px;
+    margin-bottom: 20px;
+}
+/* -------------------------------------------------- */
+
+/* -------------------------------------------------- */
+/* sub navigation                                     */
+/* -------------------------------------------------- */
+.sub-nav-action {
+
+    border-top: 1px solid #3e444c;
+    border-bottom: 1px solid #3e444c;
+    color: #ffffff;
+    text-align: center;
+    /*position: fixed;*/
+    padding: 8px;
+    width: 100%;
+    background-color: #1c1e22;
+    top: 51px;
+}
+
+    .sub-nav-action a {
+        text-decoration: none;
+    }
+
+.sub-nav-content {
+    padding: 15px 15px 15px 15px;
+    position: relative;
+    background-color: #000000;
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+/* -------------------------------------------------- */
+
+/* -------------------------------------------------- */
+/* bootstrap icons                                    */
+/* -------------------------------------------------- */
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    src: url('../fonts/glyphicons-halflings-regular.eot');
+    src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+/* -------------------------------------------------- */
+
+/* -------------------------------------------------- */
+/* bootstrap hacks                                    */
+/* -------------------------------------------------- */
+
+.navbar .nav > li > a, .navbar-brand,
+.btn,
+.footer,
+.nav,
+.breadcrumb,
+.pagination,
+.pager,
+.dropdown-menu > li > a,
+.panel .panel-heading,
+.panel .panel-title,
+.panel .panel-footer,
+.well, #alert, .a, a:hover, a:visited, a:link, a:active,
+table th {
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
+    max-height: 800px;
+}
+
+.row {
+    /*margin-top: -30px;*/
+    text-transform: none;
+}
+
+/*.navbar-toggle {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}*/
+
+.well .form-group {
+    margin-bottom: 0; 
+}
+
+.well-sm {
+    padding: 9px 9px 0px 9px;
+    border-radius: 3px;
+}
+ 
+.panel-body .panel-body-table-container{
+    margin-bottom: 0px;
+}
+/* -------------------------------------------------- */
+
+
+.panel-heading {
+    line-height: 30px;
+}
+
+
+
+/*==========  Mobile First Method  ==========*/
+
+/* Custom, iPhone Retina */
+@media only screen and (min-width : 320px) {
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (min-width : 480px) {
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width : 1200px) {
+}
+
+
+
+/*==========  Non-Mobile First Method  ==========*/
+
+/* Large Devices, Wide Screens */
+@media only screen and (max-width : 1200px) {
+    .sub-nav-action {
+        top: 51px;
+    }
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (max-width : 992px) {
+    .sub-nav-action {
+        top: 51px;
+    }
+}
+
+/* Small Devices, Tablets */
+@media only screen and (max-width : 768px) {
+    .sub-nav-action {
+        top: 51px;
+    }
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (max-width : 480px) {
+    .sub-nav-action {
+        top: 51px;
+    }
+}
+
+/* Custom, iPhone Retina */
+@media only screen and (max-width : 320px) {
+    .sub-nav-action {
+        top: 51px;
+    }
+}

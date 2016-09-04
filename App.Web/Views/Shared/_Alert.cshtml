@@ -1,0 +1,46 @@
+﻿@{
+    Layout = null;
+}
+<div id="alert">
+    @if (TempData["info"] != null)
+    {
+        <div class="alert alert-dismissable alert-info">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <p>
+                <span class="fa fa-info-circle fa-fw fa-lg"></span>
+                <b>@TempData["info"]</b>
+            </p>
+        </div>
+    }
+    @if (TempData["success"] != null)
+    {
+        <div class="alert alert-dismissable alert-success">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <p>
+                <span class="fa fa-check-circle fa-fw fa-lg"></span>
+                <b>@TempData["success"]</b>
+            </p>
+        </div>
+    }
+    @if (TempData["warning"] != null)
+    {
+        <div class="alert alert-dismissable alert-warning">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <p>
+                <span class="fa fa-exclamation-triangle fa-fw fa-lg"></span>
+                <b>@TempData["warning"]</b>
+            </p>
+        </div>
+    }
+    @if (TempData["danger"] != null)
+    {
+        <div class="alert alert-dismissable alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <p>
+                <span class="fa fa-times-circle fa-fw fa-lg"></span>
+                <b>@TempData["danger"]</b>
+            </p>
+        </div>
+    }
+</div>
+<div class="clearfix"></div>

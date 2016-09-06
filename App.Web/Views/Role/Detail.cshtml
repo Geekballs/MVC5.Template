@@ -1,39 +1,118 @@
 ﻿@model App.Web.Lib.ViewModels.RoleVm.Detail
-
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Role Detail";
 }
-
-<h2>Details</h2>
-
-<div>
-    <h4>Role</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.RoleName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.RoleName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.RoleDescription)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.RoleDescription)
-        </dd>
-
-    </dl>
-    @foreach (var i in Model.RoleUsersDetail)
-    {
-        <p>@i.UserId</p>
-        <p>@i.UserName</p>
-    }
+<div class="page-container">
+    <div class="container-fluid">
+        <div class="body-content">
+            @Html.Partial("_Alert")
+            <div class="well well-sm clearfix">
+                <p class="pull-left page-title">@ViewBag.Title</p>
+                <p class="pull-right page-info">@*empty*@</p>
+            </div>
+            @*--------------------------------------------------*@
+            @*begin: main content*@
+            @*--------------------------------------------------*@
+            <div class="main-content-container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-10 col-md-6 col-lg-6 col-centered">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <span class="fa-stack">
+                                    <i class="fa fa-fw fa-info "></i>
+                                </span>
+                                Role Detail
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-6">
+                                    <div>
+                                        @Html.LabelFor(m => m.RoleId)
+                                        <div class="alert alert-info text-uppercase">
+                                            <p>@Model.RoleId</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        @Html.LabelFor(m => m.RoleName)
+                                        <div class="alert alert-info">
+                                            <p>@Model.RoleName</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        @Html.LabelFor(m => m.RoleDescription)
+                                        <div class="alert alert-info">
+                                            <p>@Model.RoleDescription</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading"><span class="fa-stack"><i class="fa fa-fw fa-wrench "></i></span>Settings</div>
+                                            <ul class="list-group">
+                                                <li class="list-group-item">
+                                                    <span class="fa fa-fw fa-caret-right"></span>
+                                                    @if (@Model.RoleEnabled)
+                                                    {
+                                                        @:Role Enabled
+                                                    }
+                                                    else
+                                                    {
+                                                        @:Role Disabled
+                                                    }
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <span class="fa fa-fw fa-caret-right"></span>
+                                                    @if (@Model.RoleLocked)
+                                                    {
+                                                        @:Role Locked
+                                                        }
+                                                    else
+                                                    {
+                                                        @:Role Unlocked
+                                                    }
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <span class="fa-stack">
+                                                <i class="fa fa-fw fa-users "></i>
+                                            </span>
+                                            Role Users (@Model.RoleUsersDetail.Count)
+                                        </div>
+                                        <ul class="list-group">
+                                            @if (@Model.RoleUsersDetail.Any())
+                                            {
+                                                foreach (var i in Model.RoleUsersDetail)
+                                                {
+                                                    <li><a href="@Url.Action("Detail", "User", new {id = @i.UserId})" class="list-group-item"><span class="fa fa-fw fa-caret-right"></span><span> @i.UserName</span></a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer clearfix">
+                                <div class="form-group">
+                                    <div class="pull-right">
+                                        <a href="@Url.Action("Index", "Role")" class="btn btn btn-primary"><span class="fa fa-fw fa-chevron-left"></span><span> Cancel</span></a>
+                                        <a href="@Url.Action("Edit", "Role", new { id = @Model.RoleId })" class="btn btn btn-primary"><span class="fa fa-fw fa-pencil"></span><span> Edit</span></a>
+                                        <a href="@Url.Action("Delete", "Role", new {id = @Model.RoleId})" class="btn btn btn-danger"><span class="fa fa-fw fa-trash"></span><span> Delete</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*--------------------------------------------------*@
+            @*end: main content*@
+            @*--------------------------------------------------*@
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.RoleId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+@section scripts
+{
+
+}

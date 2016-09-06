@@ -33,7 +33,7 @@ namespace App.Web.Lib.Data.Managers
         {
             using (var ctx = new AppDbContext())
             {
-                var users = ctx.UserRoles.Include(x => x.User).Where(x => x.RoleId == id).ToList();
+                var users = ctx.UserRoles.Include(x => x.User).Where(x => x.RoleId == id).OrderBy(x => x.User.Name).ToList();
                 return users;
             }
         }
@@ -42,7 +42,7 @@ namespace App.Web.Lib.Data.Managers
 
         #region Create
 
-        public void CreateRole(string name, string description)
+        public void CreateRole(string name, string description, bool enabled, bool locked)
         {
             using (var ctx = new AppDbContext())
             {
@@ -50,8 +50,8 @@ namespace App.Web.Lib.Data.Managers
                 {
                     Name = name,
                     Description = description,
-                    Enabled = true,
-                    Locked = true
+                    Enabled = enabled,
+                    Locked = locked
                 };
                 ctx.Roles.Add(role);
                 ctx.SaveChanges();
@@ -71,7 +71,6 @@ namespace App.Web.Lib.Data.Managers
                 role.Description = description;
                 role.Enabled = enabled;
                 role.Locked = locked;
-                role.UserRoles.Clear();
                 ctx.SaveChanges();
             }
         }

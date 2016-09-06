@@ -1,43 +1,84 @@
 ﻿@model App.Web.Lib.ViewModels.RoleVm.Create
-
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create Role";
 }
-
-<h2>Create</h2>
-
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Role</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.RoleName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RoleName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
+<div class="page-container">
+    <div class="container-fluid">
+        <div class="body-content">
+            @Html.Partial("_Alert")
+            <div class="well well-sm clearfix">
+                <p class="pull-left page-title">@ViewBag.Title</p>
+                <p class="pull-right page-info">@*empty*@</p>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.RoleDescription, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RoleDescription, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RoleDescription, "", new { @class = "text-danger" })
+            @*--------------------------------------------------*@
+            @*begin: main content*@
+            @*--------------------------------------------------*@
+            <div class="main-content-container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-10 col-md-6 col-lg-6 col-centered">
+                        @using (Html.BeginForm("Create", "Role", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <span class="fa-stack">
+                                        <i class="fa fa-fw fa-plus "></i>
+                                    </span>
+                                    Create Role
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(m => m.RoleName)
+                                            @Html.TextBoxFor(m => m.RoleName, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.RoleName, string.Empty, new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(m => m.RoleDescription)
+                                            @Html.TextAreaFor(m => m.RoleDescription, new { @class = "form-control", rows = 6 })
+                                            @Html.ValidationMessageFor(m => m.RoleDescription, string.Empty, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.Label("Settings")
+                                            <div class="alert alert-info">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        @Html.CheckBoxFor(m => m.RoleEnabled)
+                                                        @Html.LabelFor(m => m.RoleEnabled)
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        @Html.CheckBoxFor(m => m.RoleLocked)
+                                                        @Html.LabelFor(m => m.RoleLocked)
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer clearfix">
+                                    <div class="form-group">
+                                        <div class="pull-right">
+                                            <a href="@Url.Action("Index", "Role")" class="btn btn btn-primary"><span class="fa fa-fw fa-arrow-left"></span><span> Cancel</span></a>
+                                            <button type="submit" class="btn btn-success"><span class="fa fa-fw fa-save"></span> Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
+            @*--------------------------------------------------*@
+            @*end: main content*@
+            @*--------------------------------------------------*@
         </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
+@section scripts
+{
+
+}

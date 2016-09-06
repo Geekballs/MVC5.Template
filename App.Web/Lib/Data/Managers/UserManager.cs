@@ -42,15 +42,15 @@ namespace App.Web.Lib.Data.Managers
 
         #region Create
 
-        public void CreateUser(string name, IEnumerable<Guid> roles)
+        public void CreateUser(string name, bool enabled, bool locked, IEnumerable<Guid> roles)
         {
             using (var ctx = new AppDbContext())
             {
                 var user = new User()
                 {
                     Name = name,
-                    Enabled = true,
-                    Locked = true
+                    Enabled = enabled,
+                    Locked = locked
                 };
 
                 foreach (var roleId in roles)

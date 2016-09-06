@@ -783,6 +783,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Assets\dist\img\" />
+    <Folder Include="_Utilities\BootstrapPacks\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

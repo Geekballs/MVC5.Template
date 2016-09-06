@@ -91,7 +91,7 @@ namespace App.Web.Lib.Controllers
         {
             if (ModelState.IsValid)
             {
-                TheRoleManager.CreateRole(model.RoleName, model.RoleDescription);
+                TheRoleManager.CreateRole(model.RoleName, model.RoleDescription, model.RoleEnabled, model.RoleLocked);
                 GetAlert(Success, "Role created!");
                 return RedirectToAction("Index");
             }
@@ -162,8 +162,8 @@ namespace App.Web.Lib.Controllers
             var model = new RoleVm.Delete()
             {
                 RoleId = role.RoleId,
-                Name = role.Name,
-                Description = role.Description,
+                RoleName = role.Name,
+                RoleDescription = role.Description,
                 RoleEnabled = role.Enabled,
                 RoleLocked = role.Locked
             };

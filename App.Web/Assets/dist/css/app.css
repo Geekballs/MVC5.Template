@@ -20,6 +20,13 @@ body > .container-fluid {
     margin-top: 67px;
 }
 
+ul {
+    padding: 0;
+    list-style-type: none;
+}
+.text-align-left {
+    text-align: left;
+}
 /* -------------------------------------------------- */
 /* footer                                             */
 /* -------------------------------------------------- */
@@ -154,8 +161,7 @@ table tr td:last-child {
 .dropdown-menu > li > a,
 .panel .panel-heading,
 .panel .panel-title,
-.panel .panel-footer,
-.well, #alert, .a, a:hover, a:visited, a:link, a:active,
+.panel .panel-footer, #alert, .a,  label, .field-validation-error, 
 table th {
     text-transform: uppercase;
     text-decoration: none;
@@ -164,7 +170,7 @@ table th {
 .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
     max-height: 800px;
 }
-
+/*a:hover, a:visited, a:link, a:active,*/
 .row {
     /*margin-top: -30px;*/
     text-transform: none;
@@ -184,17 +190,32 @@ table th {
     border-radius: 3px;
 }
  
-.panel-body .panel-body-table-container{
+/*.panel-body .panel-body-table-container{
     margin-bottom: 0px;
+}*/
+
+.pagination {
+    display: inline-block;
+    margin-bottom: 0;
+    margin: 0px 0; 
+    border-radius: 4px;
 }
 /* -------------------------------------------------- */
 
+/* -------------------------------------------------- */
+/* bootstrap overrides                                */
+/* -------------------------------------------------- */
 
-.panel-heading {
-    line-height: 30px;
+
+.panel-heading, .label {
+    font-weight: bold;
 }
 
 
+
+/*.panel-heading {
+    line-height: 30px;
+}*/
 
 /*==========  Mobile First Method  ==========*/
 
@@ -256,3 +277,5 @@ table th {
         top: 51px;
     }
 }
+
+

@@ -1,56 +1,92 @@
 ﻿@model App.Web.Lib.ViewModels.UserVm.Edit
-
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit User";
 }
-
-<h2>Edit</h2>
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>User</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.UserId)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+<div class="page-container">
+    <div class="container-fluid">
+        <div class="body-content">
+            @Html.Partial("_Alert")
+            <div class="well well-sm clearfix">
+                <p class="pull-left page-title">@ViewBag.Title</p>
+                <p class="pull-right page-info">@*empty*@</p>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserEnabled, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.UserEnabled)
-                    @Html.ValidationMessageFor(model => model.UserEnabled, "", new { @class = "text-danger" })
+            @*--------------------------------------------------*@
+            @*begin: main content*@
+            @*--------------------------------------------------*@
+            <div class="main-content-container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-10 col-md-6 col-lg-6 col-centered">
+                        @using (Html.BeginForm("Edit", "User", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.UserId)
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <span class="fa-stack">
+                                        <i class="fa fa-fw fa-plus "></i>
+                                    </span>
+                                    Edit User
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(m => m.UserName)
+                                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.UserName, string.Empty, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.Label("Settings")
+                                            <div class="alert alert-info">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        @Html.CheckBoxFor(m => m.UserEnabled)
+                                                        @Html.LabelFor(m => m.UserEnabled)
+                                                    </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        @Html.CheckBoxFor(m => m.UserLocked)
+                                                        @Html.LabelFor(m => m.UserLocked)
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.Label("Roles")
+                                            <div class="alert alert-info">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        @Html.EditorFor(x => x.Roles)
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-footer clearfix">
+                                    <div class="form-group">
+                                        <div class="pull-right">
+                                            <a href="@Url.Action("Index", "User")" class="btn btn btn-primary"><span class="fa fa-fw fa-arrow-left"></span><span> Cancel</span></a>
+                                            <a href="@Url.Action("Detail", "User", new { id = @Model.UserId })" class="btn btn btn-primary"><span class="fa fa-fw fa-info"></span><span> Detail</span></a>
+                                            <a href="@Url.Action("Delete", "User", new { id = @Model.UserId })" class="btn btn btn-danger"><span class="fa fa-fw fa-trash"></span><span> Delete</span></a>
+                                            <button type="submit" class="btn btn-success"><span class="fa fa-fw fa-save"></span> Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserLocked, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.UserLocked)
-                    @Html.ValidationMessageFor(model => model.UserLocked, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        @Html.EditorFor(x => x.Roles)
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
+        @*--------------------------------------------------*@
+        @*end: main content*@
+        @*--------------------------------------------------*@
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
+@section scripts
+{
+
+}

@@ -103,7 +103,7 @@ namespace App.Web.Lib.Controllers
             if (ModelState.IsValid)
             {
                 var rolesToAdd = model.Roles.Where(r => r.IsChecked).Select(r => r.Id).ToList();
-                TheUserManager.CreateUser(model.UserName, rolesToAdd);
+                TheUserManager.CreateUser(model.UserName, model.UserEnabled, model.UserLocked, rolesToAdd);
                 GetAlert(Success, "Role created!");
                 return RedirectToAction("Index");
             }

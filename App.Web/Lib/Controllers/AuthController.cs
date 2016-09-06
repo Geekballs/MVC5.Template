@@ -21,21 +21,15 @@ namespace App.Web.Lib.Controllers
             {
                 return View(model);
             }
-
-            // usually this will be injected via DI. but creating this manually now for brevity
-            var authenticationManager = HttpContext.GetOwinContext().Authentication;
-            var authService = new AdAuthenticationService(authenticationManager);
-
-            var authenticationResult = authService.SignIn(model.Username, model.Password);
-
-            if (authenticationResult.IsSuccess)
+            var authManager = HttpContext.GetOwinContext().Authentication;
+            var authService = new AdAuthenticationService(authManager);
+            var authResult = authService.SignIn(model.Username, model.Password);
+            if (authResult.IsSuccess)
             {
-                // we are in!
                 return RedirectToAction("Index", "App");
-                //return RedirectToLocal(returnUrl);
             }
-            GetAlert(Danger, authenticationResult.ErrorMessage);
-            ModelState.AddModelError("", authenticationResult.ErrorMessage);
+            GetAlert(Danger, authResult.ErrorMessage);
+            ModelState.AddModelError("", authResult.ErrorMessage);
             return View(model);
         }
 
@@ -43,13 +37,10 @@ namespace App.Web.Lib.Controllers
         //[ValidateAntiForgeryToken]
         public virtual ActionResult SignOut()
         {
-            var authenticationManager = HttpContext.GetOwinContext().Authentication;
-            authenticationManager.SignOut(MyAuthentication.ApplicationCookie);
+            var authManager = HttpContext.GetOwinContext().Authentication;
+            authManager.SignOut(MyAuthentication.ApplicationCookie);
 
             return RedirectToAction("SignIn", "Auth");
         }
-
-
-        
     }
 }

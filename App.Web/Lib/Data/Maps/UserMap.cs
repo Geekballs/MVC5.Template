@@ -17,7 +17,7 @@ namespace App.Web.Lib.Data.Maps
 
             #region Keys
 
-            HasKey(x => new { x.UserId });
+            HasKey(u => new { u.UserId });
 
             #endregion
 
@@ -29,8 +29,8 @@ namespace App.Web.Lib.Data.Maps
 
             #region Properties
 
-            Property(x => x.UserId).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("IX_UserId", 1) { IsUnique = true } })).HasColumnName("UserId").HasColumnOrder(1);
-            Property(x => x.Name).IsRequired().HasMaxLength(450).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("IX_UserName", 2) { IsUnique = true } })).HasColumnName("Name").HasColumnOrder(2);
+            Property(u => u.UserId).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("IX_UserId", 1) { IsUnique = true } })).HasColumnName("UserId").HasColumnOrder(1);
+            Property(u => u.Name).IsRequired().HasMaxLength(450).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("IX_UserName", 2) { IsUnique = true } })).HasColumnName("Name").HasColumnOrder(2);
 
             #endregion
         }

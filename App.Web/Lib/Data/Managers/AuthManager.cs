@@ -7,29 +7,29 @@ namespace App.Web.Lib.Data.Managers
 {
     public class AuthManager
     {
-        public static User GetById(Guid id)
+        public User GetUserById(Guid id)
         {
             using (var ctx = new AppDbContext())
             {
-                var movie = ctx.Users.Find(id);
-                return movie;
+                var data = ctx.Users.Find(id);
+                return data;
             }
         }
 
-        public static bool HasTrust(string name, string accessToken)
+        public bool HasTrust(string name, string accessToken)
         {
             using (var ctx = new AppDbContext())
             {
-                var user = ctx.UserRoles.Count(x => x.User.Name == name && x.User.Enabled && x.Role.Name == accessToken) > 0;
-                return user;
+                var data = ctx.UserRoles.Count(ur => ur.User.Name == name && ur.User.Enabled && ur.Role.Name == accessToken) > 0;
+                return data;
             }
         }
 
-        public static bool IsEnabled(string name)
+        public bool IsEnabled(string name)
         {
             using (var ctx = new AppDbContext())
             {
-                var user = ctx.Users.Count(x => x.Name == name && x.Enabled) > 0;
+                var user = ctx.Users.Count(u => u.Name == name && u.Enabled) > 0;
                 return user;
             }
         }

@@ -7,6 +7,8 @@ namespace App.Web.Lib.Attributes
 {
     public class TrustAttribute : AuthorizeAttribute
     {
+        AuthManager TheAuthManager = new AuthManager();
+
         public string AccessToken { get; set; }
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext ctx)
@@ -36,11 +38,11 @@ namespace App.Web.Lib.Attributes
 
             if (isAuthorized && AccessToken != null)
             {
-                return AuthManager.HasTrust(user, AccessToken);
+                return TheAuthManager.HasTrust(user, AccessToken);
             }
             if (isAuthorized)
             {
-                return AuthManager.IsEnabled(user);
+                return TheAuthManager.IsEnabled(user);
             }
             return false;
         }

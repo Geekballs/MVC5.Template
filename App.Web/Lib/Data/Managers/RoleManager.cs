@@ -15,7 +15,7 @@ namespace App.Web.Lib.Data.Managers
         {
             using (var ctx = new AppDbContext())
             {
-                var roles = ctx.Roles.Include(x => x.UserRoles).OrderBy(x => x.Name).ToList();
+                var roles = ctx.Roles.Include(ur => ur.UserRoles).OrderBy(u => u.Name).ToList();
                 return roles;
             }
         }
@@ -24,7 +24,7 @@ namespace App.Web.Lib.Data.Managers
         {
             using (var ctx = new AppDbContext())
             {
-                var role = ctx.Roles.Include(x => x.UserRoles).First(x => x.RoleId == id);
+                var role = ctx.Roles.Include(ur => ur.UserRoles).First(r => r.RoleId == id);
                 return role;
             }
         }
@@ -33,8 +33,8 @@ namespace App.Web.Lib.Data.Managers
         {
             using (var ctx = new AppDbContext())
             {
-                var users = ctx.UserRoles.Include(x => x.User).Where(x => x.RoleId == id).OrderBy(x => x.User.Name).ToList();
-                return users;
+                var roleUsers = ctx.UserRoles.Include(u => u.User).Where(ur => ur.RoleId == id).OrderBy(u => u.User.Name).ToList();
+                return roleUsers;
             }
         }
 
@@ -60,13 +60,13 @@ namespace App.Web.Lib.Data.Managers
 
         #endregion
 
-        #region Update
+        #region Edit
 
-        public void UpdateRole(Guid id, string name, string description, bool enabled, bool locked)
+        public void EditRole(Guid id, string name, string description, bool enabled, bool locked)
         {
             using (var ctx = new AppDbContext())
             {
-                var role = ctx.Roles.First(x => x.RoleId == id);
+                var role = ctx.Roles.First(r => r.RoleId == id);
                 role.Name = name;
                 role.Description = description;
                 role.Enabled = enabled;

@@ -17,7 +17,7 @@ namespace App.Web.Lib.Data.Maps
 
             #region Keys
 
-            HasKey(x => new { x.RoleId });
+            HasKey(r => new { r.RoleId });
 
             #endregion
 
@@ -29,9 +29,9 @@ namespace App.Web.Lib.Data.Maps
 
             #region Properties
 
-            Property(x => x.RoleId).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("IX_RoleId", 1) { IsUnique = true } })).HasColumnName("RoleId").HasColumnOrder(1);
-            Property(x => x.Name).IsRequired().HasMaxLength(450).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("IX_RoleName", 2) { IsUnique = true } })).HasColumnName("Name").HasColumnOrder(2);
-            Property(x => x.Description).IsRequired().HasColumnName("Description").HasColumnOrder(3);
+            Property(r => r.RoleId).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("IX_RoleId", 1) { IsUnique = true } })).HasColumnName("RoleId").HasColumnOrder(1);
+            Property(r => r.Name).IsRequired().HasMaxLength(450).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("IX_RoleName", 2) { IsUnique = true } })).HasColumnName("Name").HasColumnOrder(2);
+            Property(r => r.Description).IsRequired().HasColumnName("Description").HasColumnOrder(3);
 
             #endregion
         }

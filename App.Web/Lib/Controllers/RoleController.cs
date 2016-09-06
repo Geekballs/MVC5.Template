@@ -15,25 +15,22 @@ namespace App.Web.Lib.Controllers
         [Route("All"), HttpGet]
         public ActionResult Index(string term, int? page)
         {
-            var model = TheRoleManager.GetAllRoles().Select(x => new RoleVm.Index()
+            var model = TheRoleManager.GetAllRoles().Select(r => new RoleVm.Index()
             {
-                RoleId = x.RoleId,
-                RoleName = x.Name,
-                RoleDescription = x.Description,
-                RoleUserCount = x.UserRoles.Count,
-                RoleLocked = x.Locked,
-                RoleEnabled = x.Enabled
+                RoleId = r.RoleId,
+                RoleName = r.Name,
+                RoleDescription = r.Description,
+                RoleUserCount = r.UserRoles.Count,
+                RoleLocked = r.Locked,
+                RoleEnabled = r.Enabled
             });
-
             if (!string.IsNullOrEmpty(term))
             {
-                model = model.Where(s => s.RoleName.Contains(term) || s.RoleDescription.Contains(term));
+                model = model.Where(r => r.RoleName.Contains(term) || r.RoleDescription.Contains(term));
             }
-
             var pageNo = page ?? 1;
             var pagedData = model.ToPagedList(pageNo, AppConfig.PageSize);
             ViewBag.Data = pagedData;
-
             return View("Index", pagedData);
         }
 
@@ -64,13 +61,12 @@ namespace App.Web.Lib.Controllers
                 RoleLocked = role.Locked
             };
             var roleUsers = TheRoleManager.GeUsersInRole(id);
-            var userDetail = roleUsers.Select(x => new RoleVm.RoleUsersDetail()
+            var userDetail = roleUsers.Select(ru => new RoleVm.RoleUsersDetail()
             {
-                UserId = x.UserId,
-                UserName = x.User.Name
+                UserId = ru.UserId,
+                UserName = ru.User.Name
 
             }).ToList();
-
             model.RoleUsersDetail = userDetail;
             return View("Detail", model);
         }
@@ -133,7 +129,7 @@ namespace App.Web.Lib.Controllers
         {
             if (ModelState.IsValid)
             {
-                TheRoleManager.UpdateRole(model.RoleId, model.RoleName, model.RoleDescription, model.RoleEnabled, model.RoleLocked);
+                TheRoleManager.EditRole(model.RoleId, model.RoleName, model.RoleDescription, model.RoleEnabled, model.RoleLocked);
                 GetAlert(Success, "Role updated!");
                 return RedirectToAction("Index");
             }

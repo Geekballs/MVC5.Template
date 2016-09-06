@@ -15,21 +15,21 @@ namespace App.Web.Lib.Data.Maps
 
             #region Keys
 
-            HasKey(x => new { x.UserId, x.RoleId });
+            HasKey(ur => new { ur.UserId, ur.RoleId });
 
             #endregion
 
             #region Relationships
 
-            HasRequired(x => x.User).WithMany(x => x.UserRoles).HasForeignKey(x => x.UserId);
-            HasRequired(x => x.Role).WithMany(x => x.UserRoles).HasForeignKey(x => x.RoleId);
+            HasRequired(u => u.User).WithMany(ur => ur.UserRoles).HasForeignKey(u => u.UserId);
+            HasRequired(r => r.Role).WithMany(ur => ur.UserRoles).HasForeignKey(r => r.RoleId);
 
             #endregion
 
             #region Properties
 
-            Property(x => x.UserId).IsRequired().HasColumnName("UserId").HasColumnOrder(1);
-            Property(x => x.RoleId).IsRequired().HasColumnName("RoleId").HasColumnOrder(2);
+            Property(ur => ur.UserId).IsRequired().HasColumnName("UserId").HasColumnOrder(1);
+            Property(ur => ur.RoleId).IsRequired().HasColumnName("RoleId").HasColumnOrder(2);
 
             #endregion
         }

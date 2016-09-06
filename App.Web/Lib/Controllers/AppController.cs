@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using App.Web.Lib.Attributes;
 
 namespace App.Web.Lib.Controllers

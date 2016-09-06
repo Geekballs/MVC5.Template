@@ -15,7 +15,7 @@ namespace App.Web.Lib.Data.Managers
         {
             using (var ctx = new AppDbContext())
             {
-                var users = ctx.Users.Include(x => x.UserRoles).OrderBy(x => x.Name).ToList();
+                var users = ctx.Users.Include(ur => ur.UserRoles).OrderBy(u => u.Name).ToList();
                 return users;
             }
         }
@@ -24,7 +24,7 @@ namespace App.Web.Lib.Data.Managers
         {
             using (var ctx = new AppDbContext())
             {
-                var user = ctx.Users.Include(x => x.UserRoles).First(x => x.UserId == id);
+                var user = ctx.Users.Include(ur => ur.UserRoles).First(u => u.UserId == id);
                 return user;
             }
         }
@@ -33,8 +33,8 @@ namespace App.Web.Lib.Data.Managers
         {
             using (var ctx = new AppDbContext())
             {
-                var roles = ctx.UserRoles.Include(x => x.Role).Where(x => x.UserId == id).ToList();
-                return roles;
+                var user = ctx.UserRoles.Include(r => r.Role).Where(ur => ur.UserId == id).ToList();
+                return user;
             }
         }
 
@@ -52,7 +52,6 @@ namespace App.Web.Lib.Data.Managers
                     Enabled = enabled,
                     Locked = locked
                 };
-
                 foreach (var roleId in roles)
                 {
                     var role = ctx.Roles.Find(roleId);
@@ -69,14 +68,13 @@ namespace App.Web.Lib.Data.Managers
 
         #endregion
 
-        #region Update
+        #region Edit
 
-        public void UpdateUser(Guid id, string name, bool enabled, bool locked, IEnumerable<Guid> roles)
+        public void EditUser(Guid id, string name, bool enabled, bool locked, IEnumerable<Guid> roles)
         {
             using (var ctx = new AppDbContext())
             {
-                var user = ctx.Users.First(x => x.UserId == id);
-
+                var user = ctx.Users.First(u => u.UserId == id);
                 user.Name = name;
                 user.Enabled = enabled;
                 user.Locked = locked;
@@ -104,7 +102,7 @@ namespace App.Web.Lib.Data.Managers
         {
             using (var ctx = new AppDbContext())
             {
-                var user = ctx.Users.First(x => x.UserId == id);
+                var user = ctx.Users.First(u => u.UserId == id);
                 ctx.Users.Remove(user);
                 ctx.SaveChanges();
             }

@@ -19,13 +19,6 @@ namespace App.Web.Lib.Controllers
             return PartialView("_Header", model);
         }
 
-        [Route("Sub-Navigation")]
-        [ChildActionOnly]
-        public ActionResult SubNavigation()
-        {
-            return PartialView("_SubNavigation");
-        }
-
         [Route("Footer")]
         [ChildActionOnly]
         public ActionResult Footer()

@@ -21,6 +21,8 @@ namespace App.Web.Lib.Controllers
 
         #endregion
 
+        #region Route Helpers
+
         public ActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
@@ -30,7 +32,13 @@ namespace App.Web.Lib.Controllers
             return RedirectToAction("Index", "App");
         }
 
+        #endregion
+
+        #region Data Managers
+
         protected readonly UserManager TheUserManager = new UserManager();
         protected readonly RoleManager TheRoleManager = new RoleManager();
+
+        #endregion
     }
 }

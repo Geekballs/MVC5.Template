@@ -2,89 +2,76 @@
 using System.DirectoryServices.AccountManagement;
 using System.Security.Claims;
 using App.Web.Lib.Data.Managers;
-//using App.Web.Lib.Data.Managers;
 using Microsoft.Owin.Security;
 
 namespace App.Web.Lib.Services
 {
     public class AdAuthenticationService
     {
+        AuthManager TheAuthManager = new AuthManager();
+
         public class AuthenticationResult
         {
-            public AuthenticationResult(string errorMessage = null)
+            public AuthenticationResult(string errMessage = null)
             {
-                ErrorMessage = errorMessage;
+                ErrorMessage = errMessage;
             }
 
-            public String ErrorMessage { get; private set; }
-            public Boolean IsSuccess => String.IsNullOrEmpty(ErrorMessage);
+            public string ErrorMessage { get; private set; }
+            public bool IsSuccess => string.IsNullOrEmpty(ErrorMessage);
         }
 
-        private readonly IAuthenticationManager authenticationManager;
+        private readonly IAuthenticationManager _authManager;
 
-        public AdAuthenticationService(IAuthenticationManager authenticationManager)
+        public AdAuthenticationService(IAuthenticationManager authManager)
         {
-            this.authenticationManager = authenticationManager;
+            _authManager = authManager;
         }
 
-
-        /// <summary>
-        /// Check if username and password matches existing account in AD. 
-        /// </summary>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        public AuthenticationResult SignIn(String username, String password)
+        public AuthenticationResult SignIn(string username, string password)
         {
-#if DEBUG
-            // authenticates against your local machine - for development time
-            ContextType authenticationType = ContextType.Machine; 
-#else
+            #if DEBUG
+            var authType = ContextType.Machine;
+
+            #else
             // authenticates against your Domain AD
-            ContextType authenticationType = ContextType.Domain;
-#endif
-            PrincipalContext principalContext = new PrincipalContext(authenticationType);
-            bool isAuthenticated = false;
+            var authType = ContextType.Domain;
+
+            #endif
+            var principalCtx = new PrincipalContext(authType);
+            var isAuthed = false;
             UserPrincipal userPrincipal = null;
             try
             {
-                isAuthenticated = principalContext.ValidateCredentials(username, password, ContextOptions.Negotiate);
-                if (isAuthenticated && AuthManager.IsEnabled(username))
+                isAuthed = principalCtx.ValidateCredentials(username, password, ContextOptions.Negotiate);
+                if (isAuthed && TheAuthManager.IsEnabled(username))
                 {
-                    userPrincipal = UserPrincipal.FindByIdentity(principalContext, username);
+                    userPrincipal = UserPrincipal.FindByIdentity(principalCtx, username);
                 }
             }
             catch (Exception)
             {
-                isAuthenticated = false;
+                isAuthed = false;
                 userPrincipal = null;
             }
 
-            if (!isAuthenticated || userPrincipal == null)
+            if (!isAuthed || userPrincipal == null)
             {
                 return new AuthenticationResult("Username or Password is not correct");
             }
 
             if (userPrincipal.IsAccountLockedOut())
             {
-                // here can be a security related discussion weather it is worth 
-                // revealing this information
                 return new AuthenticationResult("Your account is locked.");
             }
 
             if (userPrincipal.Enabled.HasValue && userPrincipal.Enabled.Value == false)
             {
-                // here can be a security related discussion weather it is worth 
-                // revealing this information
                 return new AuthenticationResult("Your account is disabled");
             }
-
             var identity = CreateIdentity(userPrincipal);
-
-            authenticationManager.SignOut(MyAuthentication.ApplicationCookie);
-            authenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = false }, identity);
-
-
+            _authManager.SignOut(MyAuthentication.ApplicationCookie);
+            _authManager.SignIn(new AuthenticationProperties() { IsPersistent = false }, identity);
             return new AuthenticationResult();
         }
 
@@ -95,12 +82,12 @@ namespace App.Web.Lib.Services
             identity.AddClaim(new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", "Active Directory"));
             identity.AddClaim(new Claim(ClaimTypes.Name, userPrincipal.SamAccountName));
             identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userPrincipal.SamAccountName));
-            if (!String.IsNullOrEmpty(userPrincipal.EmailAddress))
+            if (!string.IsNullOrEmpty(userPrincipal.EmailAddress))
             {
                 identity.AddClaim(new Claim(ClaimTypes.Email, userPrincipal.EmailAddress));
             }
 
-            // add your own claims if you need to add more information stored on the cookie
+            // Add more claims to the cookie here...
 
             return identity;
         }

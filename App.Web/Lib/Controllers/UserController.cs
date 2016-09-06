@@ -18,20 +18,18 @@ namespace App.Web.Lib.Controllers
         [Route("All"), HttpGet]
         public ActionResult Index(string term, int? page)
         {
-            var model = TheUserManager.GetAllRoles().Select(x => new UserVm.Index()
+            var model = TheUserManager.GetAllRoles().Select(u => new UserVm.Index()
             {
-                UserId = x.UserId,
-                UserName = x.Name,
-                UserRoleCount = x.UserRoles.Count,
-                UserLocked = x.Locked,
-                UserEnabled = x.Enabled
+                UserId = u.UserId,
+                UserName = u.Name,
+                UserRoleCount = u.UserRoles.Count,
+                UserLocked = u.Locked,
+                UserEnabled = u.Enabled
             });
-
             if (!string.IsNullOrEmpty(term))
             {
                 model = model.Where(s => s.UserName.Contains(term));
             }
-
             var pageNo = page ?? 1;
             var pagedData = model.ToPagedList(pageNo, AppConfig.PageSize);
             ViewBag.Data = pagedData;
@@ -154,8 +152,8 @@ namespace App.Web.Lib.Controllers
         {
             if (ModelState.IsValid)
             {
-                var rolesToAdd = model.Roles.Where(x => x.IsChecked).Select(x => x.Id).ToList();
-                TheUserManager.UpdateUser(model.UserId, model.UserName, model.UserEnabled, model.UserLocked, rolesToAdd);
+                var rolesToAdd = model.Roles.Where(r => r.IsChecked).Select(r => r.Id).ToList();
+                TheUserManager.EditUser(model.UserId, model.UserName, model.UserEnabled, model.UserLocked, rolesToAdd);
                 GetAlert(Success, "Role updated!");
                 return RedirectToAction("Index");
             }

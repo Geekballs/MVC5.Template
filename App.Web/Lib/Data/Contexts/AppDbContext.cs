@@ -25,7 +25,7 @@ namespace App.Web.Lib.Data.Contexts
             var typesToRegister =
                 Assembly.GetExecutingAssembly()
                     .GetTypes()
-                    .Where(type => !String.IsNullOrEmpty(type.Namespace))
+                    .Where(type => !string.IsNullOrEmpty(type.Namespace))
                     .Where(type => type.BaseType != null && type.BaseType.IsGenericType && type.BaseType.GetGenericTypeDefinition() == typeof(EntityTypeConfiguration<>));
 
             foreach (var type in typesToRegister)

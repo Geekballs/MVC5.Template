@@ -19,10 +19,19 @@ namespace App.Web.Lib.ViewModels
 
         public class Detail
         {
+            [DisplayName("ID")]
             public Guid UserId { get; set; }
+
+            [DisplayName("Name")]
             public string UserName { get; set; }
+
+            [DisplayName("Enabled")]
             public bool UserEnabled { get; set; }
+
+            [DisplayName("Locked")]
             public bool UserLocked { get; set; }
+
+            [DisplayName("Roles")]
             public List<UserRolesDetail> UserRolesDetail { get; set; }
         }
 

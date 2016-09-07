@@ -55,6 +55,12 @@ namespace App.Web.Lib.Services
                 userPrincipal = null;
             }
 
+            // The user has been authenticated, but they are not enabled in this application.
+            if (isAuthed && TheAuthManager.IsEnabled(username))
+            {
+                return new AuthenticationResult("Unauthorized!");
+            }
+
             if (!isAuthed || userPrincipal == null)
             {
                 return new AuthenticationResult("Username or Password is not correct");

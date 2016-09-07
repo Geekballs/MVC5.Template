@@ -75,15 +75,15 @@
                                             </span>
                                             Roles (@Model.UserRolesDetail.Count)
                                         </div>
-                                        <ul class="list-group">
+                                        <div class="list-group">
                                             @if (@Model.UserRolesDetail.Any())
                                             {
                                                 foreach (var i in Model.UserRolesDetail)
                                                 {
-                                                    <li><a href="@Url.Action("Detail", "Role", new {id = @i.RoleId})" class="list-group-item"><span class="fa fa-fw fa-caret-right"></span><span> @i.RoleName</span></a></li>
+                                                    <a href="@Url.Action("Detail", "Role", new {id = @i.RoleId})" class="list-group-item"><span class="fa fa-fw fa-caret-right"></span><span> @i.RoleName</span></a>
                                                 }
                                             }
-                                        </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

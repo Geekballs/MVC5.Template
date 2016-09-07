@@ -7,12 +7,12 @@ using X.PagedList;
 
 namespace App.Web.Lib.Controllers
 {
-    [RoutePrefix("Role-Admin")]
+    [RoutePrefix("Admin")]
     public class RoleController : BaseController
     {
         #region Index
 
-        [Route("All"), HttpGet]
+        [Route("Roles"), HttpGet]
         public ActionResult Index(string term, int? page)
         {
             var model = TheRoleManager.GetAllRoles().Select(r => new RoleVm.Index()
@@ -38,7 +38,7 @@ namespace App.Web.Lib.Controllers
 
         #region Detail 
 
-        [Route("Detail/{id}"), HttpGet]
+        [Route("Role-Detail/{id}"), HttpGet]
         public ActionResult Detail(Guid? id)
         {
             if (id == null)
@@ -75,14 +75,14 @@ namespace App.Web.Lib.Controllers
 
         #region Create
 
-        [Route("Create"), HttpGet]
+        [Route("Create-Role"), HttpGet]
         public ActionResult Create()
         {
             var model = new RoleVm.Create();
             return View("Create", model);
         }
 
-        [Route("Create"), HttpPost, ValidateAntiForgeryToken]
+        [Route("Create-Role"), HttpPost, ValidateAntiForgeryToken]
         public ActionResult Create(RoleVm.Create model)
         {
             if (ModelState.IsValid)
@@ -97,9 +97,9 @@ namespace App.Web.Lib.Controllers
 
         #endregion
 
-        #region Update
+        #region Edit
 
-        [Route("Edit/{id}"), HttpGet]
+        [Route("Edit-Role/{id}"), HttpGet]
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
@@ -124,7 +124,7 @@ namespace App.Web.Lib.Controllers
             return View("Edit", model);
         }
 
-        [Route("Edit/{id}"), HttpPost, ValidateAntiForgeryToken]
+        [Route("Edit-Role/{id}"), HttpPost, ValidateAntiForgeryToken]
         public ActionResult Edit(RoleVm.Edit model)
         {
             if (ModelState.IsValid)
@@ -141,7 +141,7 @@ namespace App.Web.Lib.Controllers
 
         #region Delete
 
-        [Route("Delete/{id}"), HttpGet]
+        [Route("Delete-Role/{id}"), HttpGet]
         public ActionResult Delete(Guid? id)
         {
             if (id == null)

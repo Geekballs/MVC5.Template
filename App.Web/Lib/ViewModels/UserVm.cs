@@ -64,8 +64,12 @@ namespace App.Web.Lib.ViewModels
             [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
             public string UserName { get; set; }
 
+            [DisplayName("Enabled")]
             public bool UserEnabled { get; set; }
+
+            [DisplayName("Locked")]
             public bool UserLocked { get; set; }
+
             public List<CheckBoxListItem> Roles { get; set; }
         }
 

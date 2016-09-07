@@ -64,6 +64,8 @@
                                     <div class="form-group">
                                         <div class="pull-right">
                                             <a href="@Url.Action("Index", "Role")" class="btn btn btn-primary"><span class="fa fa-fw fa-arrow-left"></span><span> Cancel</span></a>
+                                            <a href="@Url.Action("Detail", "Role", new { id = @Model.RoleId })" class="btn btn btn-primary"><span class="fa fa-fw fa-info"></span><span> Detail</span></a>
+                                            <a href="@Url.Action("Delete", "Role", new { id = @Model.RoleId })" class="btn btn btn-danger"><span class="fa fa-fw fa-trash"></span><span> Delete</span></a>
                                             <button type="submit" class="btn btn-success"><span class="fa fa-fw fa-save"></span> Save</button>
                                         </div>
                                     </div>

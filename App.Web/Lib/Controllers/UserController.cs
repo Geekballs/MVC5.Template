@@ -2,20 +2,18 @@
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using App.Web.Lib.Data.Contexts;
-using App.Web.Lib.Data.Entities;
 using App.Web.Lib.Models;
 using App.Web.Lib.ViewModels;
 using X.PagedList;
 
 namespace App.Web.Lib.Controllers
 {
-    [RoutePrefix("User-Admin")]
+    [RoutePrefix("Admin")]
     public class UserController : BaseController
     {
         #region Index
 
-        [Route("All"), HttpGet]
+        [Route("Users"), HttpGet]
         public ActionResult Index(string term, int? page)
         {
             var model = TheUserManager.GetAllRoles().Select(u => new UserVm.Index()
@@ -41,7 +39,7 @@ namespace App.Web.Lib.Controllers
 
         #region Detail 
 
-        [Route("Detail/{id}"), HttpGet]
+        [Route("User-Detail/{id}"), HttpGet]
         public ActionResult Detail(Guid? id)
         {
             if (id == null)
@@ -79,7 +77,7 @@ namespace App.Web.Lib.Controllers
 
         #region Create
 
-        [Route("Create"), HttpGet]
+        [Route("Create-User"), HttpGet]
         public ActionResult Create()
         {
             var model = new UserVm.Create();
@@ -95,7 +93,7 @@ namespace App.Web.Lib.Controllers
             return View("Create", model);
         }
 
-        [Route("Create"), HttpPost, ValidateAntiForgeryToken]
+        [Route("Create-User"), HttpPost, ValidateAntiForgeryToken]
         public ActionResult Create(UserVm.Create model)
         {
             if (ModelState.IsValid)
@@ -111,9 +109,9 @@ namespace App.Web.Lib.Controllers
 
         #endregion
 
-        #region Update
+        #region Edit
 
-        [Route("Edit/{id}"), HttpGet]
+        [Route("Edit-User/{id}"), HttpGet]
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
@@ -147,7 +145,7 @@ namespace App.Web.Lib.Controllers
             return View("Edit", model);
         }
 
-        [Route("Edit/{id}"), HttpPost, ValidateAntiForgeryToken]
+        [Route("Edit-User/{id}"), HttpPost, ValidateAntiForgeryToken]
         public ActionResult Edit(UserVm.Edit model)
         {
             if (ModelState.IsValid)
@@ -165,7 +163,7 @@ namespace App.Web.Lib.Controllers
 
         #region Delete
 
-        [Route("Delete/{id}"), HttpGet]
+        [Route("Delete-User/{id}"), HttpGet]
         public ActionResult Delete(Guid? id)
         {
             if (id == null)

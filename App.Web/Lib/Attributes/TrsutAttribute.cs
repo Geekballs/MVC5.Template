@@ -1,13 +1,23 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using App.Web.Lib.Data.Managers;
+using App.Web.Lib.Data.Services;
 
 namespace App.Web.Lib.Attributes
 {
     public class TrustAttribute : AuthorizeAttribute
     {
-        AuthManager TheAuthManager = new AuthManager();
+        private readonly IUserService _userService;
+
+        public TrustAttribute(IUserService userService, IRoleService roleService)
+        {
+            _userService = userService;
+        }
+
+        public TrustAttribute() : base()
+        {
+        }
+
 
         public string AccessToken { get; set; }
 
@@ -38,15 +48,13 @@ namespace App.Web.Lib.Attributes
 
             if (isAuthorized && AccessToken != null)
             {
-                return TheAuthManager.HasTrust(user, AccessToken);
+                return _userService.UserTrust(user, AccessToken);
             }
             if (isAuthorized)
             {
-                return TheAuthManager.IsEnabled(user);
+                return _userService.GetByName(user).Enabled;
             }
             return false;
         }
     }
-
-    
 }

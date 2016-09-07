@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using App.Web.Lib.Data.Services;
 using App.Web.Lib.Models;
 using App.Web.Lib.ViewModels;
 using X.PagedList;
@@ -11,12 +12,21 @@ namespace App.Web.Lib.Controllers
     [RoutePrefix("Admin")]
     public class UserController : BaseController
     {
+        private readonly IUserService _userService;
+        private readonly IRoleService _roleService;
+
+        public UserController(IUserService userService, IRoleService roleService)
+        {
+            _userService = userService;
+            _roleService = roleService;
+        }
+
         #region Index
 
         [Route("Users"), HttpGet]
         public ActionResult Index(string term, int? page)
         {
-            var model = TheUserManager.GetAllRoles().Select(u => new UserVm.Index()
+            var model = _userService.GetAllUsers().Select(u => new UserVm.Index()
             {
                 UserId = u.UserId,
                 UserName = u.Name,
@@ -40,14 +50,9 @@ namespace App.Web.Lib.Controllers
         #region Detail 
 
         [Route("User-Detail/{id}"), HttpGet]
-        public ActionResult Detail(Guid? id)
+        public ActionResult Detail(Guid id)
         {
-            if (id == null)
-            {
-                GetAlert(Danger, "ID cannot e null!");
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var user = TheUserManager.GetUserById(id);
+            var user = _userService.GetById(id);
             if (user == null)
             {
                 GetAlert(Danger, "User cannot be found!");
@@ -61,7 +66,7 @@ namespace App.Web.Lib.Controllers
                 UserLocked = user.Locked
             };
 
-            var userRoles = TheUserManager.GetRolesForUser(id);
+            var userRoles = _userService.GetRolesForUser(id);
             var roleDetail = userRoles.Select(rd => new UserVm.UserRolesDetail()
             {
                 RoleId = rd.RoleId,
@@ -81,7 +86,7 @@ namespace App.Web.Lib.Controllers
         public ActionResult Create()
         {
             var model = new UserVm.Create();
-            var roles = TheRoleManager.GetAllRoles();
+            var roles = _roleService.GetAllRoles();;
             var roleDetail = roles.Select(rd => new CheckBoxListItem()
             {
                 Id = rd.RoleId,
@@ -99,7 +104,7 @@ namespace App.Web.Lib.Controllers
             if (ModelState.IsValid)
             {
                 var rolesToAdd = model.Roles.Where(r => r.IsChecked).Select(r => r.Id).ToList();
-                TheUserManager.CreateUser(model.UserName, model.UserEnabled, model.UserLocked, rolesToAdd);
+                _userService.CreateUser(model.UserName, model.UserEnabled, model.UserLocked, rolesToAdd);
                 GetAlert(Success, "Role created!");
                 return RedirectToAction("Index");
             }
@@ -112,14 +117,9 @@ namespace App.Web.Lib.Controllers
         #region Edit
 
         [Route("Edit-User/{id}"), HttpGet]
-        public ActionResult Edit(Guid? id)
+        public ActionResult Edit(Guid id)
         {
-            if (id == null)
-            {
-                GetAlert(Danger, "ID cannot be null!");
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var user = TheUserManager.GetUserById(id);
+            var user = _userService.GetById(id);
             if (user == null)
             {
                 GetAlert(Danger, "User cannot be found!");
@@ -132,8 +132,8 @@ namespace App.Web.Lib.Controllers
                 UserEnabled = user.Enabled,
                 UserLocked = user.Locked
             };
-            var userRoles = TheUserManager.GetRolesForUser(id);
-            var roles = TheRoleManager.GetAllRoles();
+            var userRoles = _userService.GetRolesForUser(id);
+            var roles = _roleService.GetAllRoles();
             var roleDetail = roles.Select(rd => new CheckBoxListItem()
             {
                 Id = rd.RoleId,
@@ -151,7 +151,7 @@ namespace App.Web.Lib.Controllers
             if (ModelState.IsValid)
             {
                 var rolesToAdd = model.Roles.Where(r => r.IsChecked).Select(r => r.Id).ToList();
-                TheUserManager.EditUser(model.UserId, model.UserName, model.UserEnabled, model.UserLocked, rolesToAdd);
+                _userService.EditUser(model.UserId, model.UserName, model.UserEnabled, model.UserLocked, rolesToAdd);
                 GetAlert(Success, "Role updated!");
                 return RedirectToAction("Index");
             }
@@ -164,14 +164,9 @@ namespace App.Web.Lib.Controllers
         #region Delete
 
         [Route("Delete-User/{id}"), HttpGet]
-        public ActionResult Delete(Guid? id)
+        public ActionResult Delete(Guid id)
         {
-            if (id == null)
-            {
-                GetAlert(Danger, "ID cannot be null!");
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var user = TheUserManager.GetUserById(id);
+            var user = _userService.GetById(id);
             if (user == null)
             {
                 GetAlert(Danger, "User cannot be found!");
@@ -192,7 +187,7 @@ namespace App.Web.Lib.Controllers
         {
             if (ModelState.IsValid)
             {
-                TheUserManager.DeleteUser(model.UserId);
+                _userService.DeleteUser(model.UserId);
                 GetAlert(Success, "User deleted!");
                 return RedirectToAction("Index");
             }

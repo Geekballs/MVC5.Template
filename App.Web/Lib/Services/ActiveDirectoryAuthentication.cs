@@ -1,14 +1,19 @@
 ﻿using System;
 using System.DirectoryServices.AccountManagement;
 using System.Security.Claims;
-using App.Web.Lib.Data.Managers;
+using App.Web.Lib.Data.Services;
 using Microsoft.Owin.Security;
 
 namespace App.Web.Lib.Services
 {
     public class AdAuthenticationService
     {
-        AuthManager TheAuthManager = new AuthManager();
+        private readonly IUserService _userService;
+
+        public AdAuthenticationService(IUserService userService, IRoleService roleService)
+        {
+            _userService = userService;
+        }
 
         public class AuthenticationResult
         {
@@ -44,7 +49,7 @@ namespace App.Web.Lib.Services
             try
             {
                 isAuthed = principalCtx.ValidateCredentials(username, password, ContextOptions.Negotiate);
-                if (isAuthed && TheAuthManager.IsEnabled(username))
+                if (isAuthed && _userService.GetByName(username).Enabled)
                 {
                     userPrincipal = UserPrincipal.FindByIdentity(principalCtx, username);
                 }
@@ -56,7 +61,7 @@ namespace App.Web.Lib.Services
             }
 
             // The user has been authenticated, but they are not enabled in this application.
-            if (isAuthed && TheAuthManager.IsEnabled(username))
+            if (isAuthed && !_userService.GetByName(username).Enabled)
             {
                 return new AuthenticationResult("Unauthorized!");
             }
@@ -80,7 +85,6 @@ namespace App.Web.Lib.Services
             _authManager.SignIn(new AuthenticationProperties() { IsPersistent = false }, identity);
             return new AuthenticationResult();
         }
-
 
         private ClaimsIdentity CreateIdentity(UserPrincipal userPrincipal)
         {

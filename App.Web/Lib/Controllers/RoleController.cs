@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using App.Web.Lib.Data.Services;
 using App.Web.Lib.ViewModels;
 using X.PagedList;
 
@@ -10,12 +11,19 @@ namespace App.Web.Lib.Controllers
     [RoutePrefix("Admin")]
     public class RoleController : BaseController
     {
+        private readonly IRoleService _roleService;
+
+        public RoleController(IRoleService roleService)
+        {
+            _roleService = roleService;
+        }
+
         #region Index
 
         [Route("Roles"), HttpGet]
         public ActionResult Index(string term, int? page)
         {
-            var model = TheRoleManager.GetAllRoles().Select(r => new RoleVm.Index()
+            var model = _roleService.GetAllRoles().Select(r => new RoleVm.Index()
             {
                 RoleId = r.RoleId,
                 RoleName = r.Name,
@@ -39,14 +47,9 @@ namespace App.Web.Lib.Controllers
         #region Detail 
 
         [Route("Role-Detail/{id}"), HttpGet]
-        public ActionResult Detail(Guid? id)
+        public ActionResult Detail(Guid id)
         {
-            if (id == null)
-            {
-                GetAlert(Danger, "ID cannot e null!");
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var role = TheRoleManager.GetRoleById(id);
+            var role = _roleService.GetById(id);
             if (role == null)
             {
                 GetAlert(Danger, "Role cannot be found!");
@@ -60,7 +63,7 @@ namespace App.Web.Lib.Controllers
                 RoleEnabled = role.Enabled,
                 RoleLocked = role.Locked
             };
-            var roleUsers = TheRoleManager.GeUsersInRole(id);
+            var roleUsers = _roleService.GetUsersInRole(id);
             var userDetail = roleUsers.Select(ru => new RoleVm.RoleUsersDetail()
             {
                 UserId = ru.UserId,
@@ -87,7 +90,7 @@ namespace App.Web.Lib.Controllers
         {
             if (ModelState.IsValid)
             {
-                TheRoleManager.CreateRole(model.RoleName, model.RoleDescription, model.RoleEnabled, model.RoleLocked);
+                _roleService.CreateRole(model.RoleName, model.RoleDescription, model.RoleEnabled, model.RoleLocked);
                 GetAlert(Success, "Role created!");
                 return RedirectToAction("Index");
             }
@@ -100,14 +103,9 @@ namespace App.Web.Lib.Controllers
         #region Edit
 
         [Route("Edit-Role/{id}"), HttpGet]
-        public ActionResult Edit(Guid? id)
+        public ActionResult Edit(Guid id)
         {
-            if (id == null)
-            {
-                GetAlert(Danger, "ID cannot e null!");
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var role = TheRoleManager.GetRoleById(id);
+            var role = _roleService.GetById(id);
             if (role == null)
             {
                 GetAlert(Danger, "Role cannot be found!");
@@ -129,7 +127,7 @@ namespace App.Web.Lib.Controllers
         {
             if (ModelState.IsValid)
             {
-                TheRoleManager.EditRole(model.RoleId, model.RoleName, model.RoleDescription, model.RoleEnabled, model.RoleLocked);
+                _roleService.EditRole(model.RoleId, model.RoleName, model.RoleDescription, model.RoleEnabled, model.RoleLocked);
                 GetAlert(Success, "Role updated!");
                 return RedirectToAction("Index");
             }
@@ -142,14 +140,9 @@ namespace App.Web.Lib.Controllers
         #region Delete
 
         [Route("Delete-Role/{id}"), HttpGet]
-        public ActionResult Delete(Guid? id)
+        public ActionResult Delete(Guid id)
         {
-            if (id == null)
-            {
-                GetAlert(Danger, "ID cannot be null!");
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var role = TheRoleManager.GetRoleById(id);
+            var role = _roleService.GetById(id);
             if (role == null)
             {
                 GetAlert(Danger, "Role cannot be found!");
@@ -166,12 +159,12 @@ namespace App.Web.Lib.Controllers
             return View("Delete", model);
         }
 
-        [Route("Delete/{id}"), HttpPost, ValidateAntiForgeryToken]
+        [Route("Delete-Role/{id}"), HttpPost, ValidateAntiForgeryToken]
         public ActionResult Delete(RoleVm.Delete model)
         {
             if (ModelState.IsValid)
             {
-                TheRoleManager.DeleteRole(model.RoleId);
+                _roleService.DeleteRole(model.RoleId);
                 GetAlert(Success, "Role deleted!");
                 return RedirectToAction("Index");
             }

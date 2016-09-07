@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using App.Web.Lib.Data.Managers;
 
 namespace App.Web.Lib.Controllers
 {
@@ -31,13 +30,6 @@ namespace App.Web.Lib.Controllers
             }
             return RedirectToAction("Index", "App");
         }
-
-        #endregion
-
-        #region Data Managers
-
-        protected readonly UserManager TheUserManager = new UserManager();
-        protected readonly RoleManager TheRoleManager = new RoleManager();
 
         #endregion
     }

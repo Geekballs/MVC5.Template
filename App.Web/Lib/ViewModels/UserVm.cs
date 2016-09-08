@@ -12,6 +12,8 @@ namespace App.Web.Lib.ViewModels
         {
             public Guid UserId { get; set; }
             public string UserName { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
             public int UserRoleCount { get; set; }
             public bool UserEnabled { get; set; }
             public bool UserLocked { get; set; }
@@ -22,8 +24,14 @@ namespace App.Web.Lib.ViewModels
             [DisplayName("ID")]
             public Guid UserId { get; set; }
 
-            [DisplayName("Name")]
+            [DisplayName("User Name")]
             public string UserName { get; set; }
+
+            [DisplayName("First Name")]
+            public string FirstName { get; set; }
+
+            [DisplayName("Last Name")]
+            public string LastName { get; set; }
 
             [DisplayName("Enabled")]
             public bool UserEnabled { get; set; }
@@ -43,9 +51,17 @@ namespace App.Web.Lib.ViewModels
 
         public class Create
         {
-            [DisplayName("Name")]
+            [DisplayName("User Name")]
             [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
             public string UserName { get; set; }
+
+            [DisplayName("First Name")]
+            [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
+            public string FirstName { get; set; }
+
+            [DisplayName("Last Name")]
+            [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
+            public string LastName { get; set; }
 
             [DisplayName("Enabled")]
             public bool UserEnabled { get; set; }
@@ -60,9 +76,17 @@ namespace App.Web.Lib.ViewModels
         {
             public Guid UserId { get; set; }
 
-            [DisplayName("Name")]
+            [DisplayName("User Name")]
             [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
             public string UserName { get; set; }
+
+            [DisplayName("First Name")]
+            [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
+            public string FirstName { get; set; }
+
+            [DisplayName("Last Name")]
+            [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
+            public string LastName { get; set; }
 
             [DisplayName("Enabled")]
             public bool UserEnabled { get; set; }
@@ -77,6 +101,8 @@ namespace App.Web.Lib.ViewModels
         {
             public Guid UserId { get; set; }
             public string UserName { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
             public bool UserEnabled { get; set; }
             public bool UserLocked { get; set; }
         }

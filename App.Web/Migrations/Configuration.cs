@@ -11,8 +11,10 @@ namespace App.Web.Migrations
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(AppDbContext context)
+        protected override void Seed(AppDbContext ctx)
         {
+            SeedData.DefaultRoles(ctx);
+            SeedData.TestUsers(ctx);
         }
     }
 }

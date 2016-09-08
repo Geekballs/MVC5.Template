@@ -13,8 +13,9 @@ namespace App.Web.Lib.Data.Entities
         #region Properties
 
         public Guid UserId { get; set; }
-        public string Name { get; set; }
-        public bool Enabled { get; set; }
+        public string UserName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
 
         #endregion
 

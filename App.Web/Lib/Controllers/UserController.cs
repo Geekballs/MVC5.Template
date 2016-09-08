@@ -29,14 +29,16 @@ namespace App.Web.Lib.Controllers
             var model = _userService.GetAllUsers().Select(u => new UserVm.Index()
             {
                 UserId = u.UserId,
-                UserName = u.Name,
+                UserName = u.UserName,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
                 UserRoleCount = u.UserRoles.Count,
                 UserLocked = u.Locked,
                 UserEnabled = u.Enabled
             });
             if (!string.IsNullOrEmpty(term))
             {
-                model = model.Where(s => s.UserName.Contains(term));
+                model = model.Where(s => s.UserName.Contains(term.ToLower()));
             }
             var pageNo = page ?? 1;
             var pagedData = model.ToPagedList(pageNo, AppConfig.PageSize);
@@ -61,7 +63,9 @@ namespace App.Web.Lib.Controllers
             var model = new UserVm.Detail()
             {
                 UserId = user.UserId,
-                UserName = user.Name,
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 UserEnabled = user.Enabled,
                 UserLocked = user.Locked
             };
@@ -100,7 +104,7 @@ namespace App.Web.Lib.Controllers
             if (ModelState.IsValid)
             {
                 var rolesToAdd = model.Roles.Where(r => r.IsChecked).Select(r => r.Id).ToList();
-                _userService.CreateUser(model.UserName, model.UserEnabled, model.UserLocked, rolesToAdd);
+                _userService.CreateUser(model.UserName, model.FirstName, model.LastName, model.UserEnabled, model.UserLocked, rolesToAdd);
                 GetAlert(Success, "Role created!");
                 return RedirectToAction("Index");
             }
@@ -124,7 +128,9 @@ namespace App.Web.Lib.Controllers
             var model = new UserVm.Edit()
             {
                 UserId = user.UserId,
-                UserName = user.Name,
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 UserEnabled = user.Enabled,
                 UserLocked = user.Locked
             };
@@ -146,7 +152,7 @@ namespace App.Web.Lib.Controllers
             if (ModelState.IsValid)
             {
                 var rolesToAdd = model.Roles.Where(r => r.IsChecked).Select(r => r.Id).ToList();
-                _userService.EditUser(model.UserId, model.UserName, model.UserEnabled, model.UserLocked, rolesToAdd);
+                _userService.EditUser(model.UserId, model.UserName, model.FirstName, model.LastName, model.UserEnabled, model.UserLocked, rolesToAdd);
                 GetAlert(Success, "Role updated!");
                 return RedirectToAction("Index");
             }
@@ -170,14 +176,16 @@ namespace App.Web.Lib.Controllers
             var model = new UserVm.Delete()
             {
                 UserId = user.UserId,
-                UserName = user.Name,
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 UserEnabled = user.Enabled,
                 UserLocked = user.Locked
             };
             return View("Delete", model);
         }
 
-        [Route("Delete/{id}"), HttpPost, ValidateAntiForgeryToken]
+        [Route("Delete-User/{id}"), HttpPost, ValidateAntiForgeryToken]
         public ActionResult Delete(UserVm.Delete model)
         {
             if (ModelState.IsValid)

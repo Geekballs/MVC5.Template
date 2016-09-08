@@ -18,7 +18,7 @@ namespace App.Web.Lib.Data.Services
 
         public IEnumerable<User> GetAllUsers()
         {
-            var users = _ctx.Users.Include(ur => ur.UserRoles).OrderBy(u => u.Name).ToList();
+            var users = _ctx.Users.Include(ur => ur.UserRoles).OrderBy(u => u.UserName).ToList();
             return users;
         }
 
@@ -30,7 +30,7 @@ namespace App.Web.Lib.Data.Services
 
         public User GetByName(string name)
         {
-            var user = _ctx.Users.Include(ur => ur.UserRoles).First(u => u.Name == name);
+            var user = _ctx.Users.Include(ur => ur.UserRoles).First(u => u.UserName == name);
             return user;
         }
 
@@ -40,11 +40,13 @@ namespace App.Web.Lib.Data.Services
             return userRoles;
         }
 
-        public void CreateUser(string name, bool enabled, bool locked, IEnumerable<Guid> roles)
+        public void CreateUser(string userName, string firstName, string lastName, bool enabled, bool locked, IEnumerable<Guid> roles)
         {
             var user = new User()
             {
-                Name = name,
+                UserName = userName,
+                FirstName = firstName,
+                LastName = lastName,
                 Enabled = enabled,
                 Locked = locked
             };
@@ -61,10 +63,12 @@ namespace App.Web.Lib.Data.Services
             _ctx.SaveChanges();
         }
 
-        public void EditUser(Guid id, string name, bool enabled, bool locked, IEnumerable<Guid> roles)
+        public void EditUser(Guid id, string userName, string firstName, string lastName, bool enabled, bool locked, IEnumerable<Guid> roles)
         {
             var user = _ctx.Users.First(u => u.UserId == id);
-            user.Name = name;
+            user.UserName = userName;
+            user.FirstName = firstName;
+            user.LastName = lastName;
             user.Enabled = enabled;
             user.Locked = locked;
             user.UserRoles.Clear();
@@ -87,12 +91,6 @@ namespace App.Web.Lib.Data.Services
             var user = _ctx.Users.First(u => u.UserId == userId);
             _ctx.Users.Remove(user);
             _ctx.SaveChanges();
-        }
-
-        public bool UserTrust(string name, string accessToken)
-        {
-            var user = _ctx.UserRoles.Count(ur => ur.User.Name == name && ur.User.Enabled && ur.Role.Name == accessToken) > 0;
-            return user;
         }
 
         public void Save()

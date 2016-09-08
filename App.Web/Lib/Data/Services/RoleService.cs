@@ -30,7 +30,7 @@ namespace App.Web.Lib.Data.Services
 
         public IEnumerable<UserRole> GetUsersInRole(Guid roleId)
         {
-            var roleUsers = _ctx.UserRoles.Include(u => u.User).Where(ur => ur.RoleId == roleId).OrderBy(u => u.User.Name).ToList();
+            var roleUsers = _ctx.UserRoles.Include(u => u.User).Where(ur => ur.RoleId == roleId).OrderBy(u => u.User.UserName).ToList();
             return roleUsers;
         }
 

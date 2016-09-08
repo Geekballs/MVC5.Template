@@ -10,8 +10,8 @@ namespace App.Web.Lib.Data.Services
         User GetById(Guid userId);
         User GetByName(string name);
         IEnumerable<UserRole> GetRolesForUser(Guid userId);
-        void CreateUser(string name, bool enabled, bool locked, IEnumerable<Guid> roles);
-        void EditUser(Guid userId, string name, bool enabled, bool locked, IEnumerable<Guid> roles);
+        void CreateUser(string userName, string firstName, string lastName, bool enabled, bool locked, IEnumerable<Guid> roles);
+        void EditUser(Guid userId, string userName, string firstName, string lastName, bool enabled, bool locked, IEnumerable<Guid> roles);
         void DeleteUser(Guid userId);
         void Save();
     }

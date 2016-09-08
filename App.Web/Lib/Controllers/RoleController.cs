@@ -34,7 +34,7 @@ namespace App.Web.Lib.Controllers
             });
             if (!string.IsNullOrEmpty(term))
             {
-                model = model.Where(r => r.RoleName.Contains(term) || r.RoleDescription.Contains(term));
+                model = model.Where(r => r.RoleName.Contains(term) || r.RoleDescription.Contains(term.ToLower()));
             }
             var pageNo = page ?? 1;
             var pagedData = model.ToPagedList(pageNo, AppConfig.PageSize);
@@ -67,7 +67,7 @@ namespace App.Web.Lib.Controllers
             var userDetail = roleUsers.Select(ru => new RoleVm.RoleUsersDetail()
             {
                 UserId = ru.UserId,
-                UserName = ru.User.Name
+                UserName = ru.User.UserName
             }).ToList();
             model.RoleUsersDetail = userDetail;
             return View("Detail", model);

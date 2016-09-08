@@ -5,7 +5,7 @@ namespace App.Web.Lib.Controllers
 {
     public class AppController : BaseController
     {
-        [Trust(AccessToken = "Admin")]
+        [Trust]
         public ActionResult Index()
         {
            return View();

@@ -1,4 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Security.Principal;
+using System.Web;
+using System.Web.Mvc;
 
 namespace App.Web.Lib.Controllers
 {
@@ -22,6 +25,10 @@ namespace App.Web.Lib.Controllers
         [Route("403")]
         public ActionResult Http403()
         {
+            // This is a bit dirty, but it forces a user to sign out if they have been previously authenticated.
+            var authManager = HttpContext.GetOwinContext().Authentication;
+            authManager.SignOut(MyAuthentication.ApplicationCookie);
+            HttpContext.User = new GenericPrincipal(new GenericIdentity(String.Empty), null); 
             Response.StatusCode = 403;
             return View();
         }

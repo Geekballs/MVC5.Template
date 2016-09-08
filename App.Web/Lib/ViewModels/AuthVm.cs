@@ -20,9 +20,8 @@ namespace App.Web.Lib.ViewModels
         {
             public string Username { get; set; }
             public bool IsAuthenticated { get; set; }
+            public bool IsSuperAdminRole { get; set; }
             public bool IsAdminRole { get; set; }
-            public bool IsDashboardRole { get; set; }
-            public bool IsInvestigateRole { get; set; }
         }
     }
 }

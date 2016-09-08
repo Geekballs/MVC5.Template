@@ -65,15 +65,12 @@ namespace App.Web.Lib.Controllers
                 UserEnabled = user.Enabled,
                 UserLocked = user.Locked
             };
-
             var userRoles = _userService.GetRolesForUser(id);
             var roleDetail = userRoles.Select(rd => new UserVm.UserRolesDetail()
             {
                 RoleId = rd.RoleId,
                 RoleName = rd.Role.Name
-
             }).ToList();
-
             model.UserRolesDetail = roleDetail;
             return View("Detail", model);
         }
@@ -92,7 +89,6 @@ namespace App.Web.Lib.Controllers
                 Id = rd.RoleId,
                 Display = rd.Name,
                 IsChecked = false
-
             }).ToList();
             model.Roles = roleDetail;
             return View("Create", model);
@@ -139,7 +135,6 @@ namespace App.Web.Lib.Controllers
                 Id = rd.RoleId,
                 Display = rd.Name,
                 IsChecked = userRoles.Any(ur => ur.RoleId == rd.RoleId)
-
             }).ToList();
             model.Roles = roleDetail;
             return View("Edit", model);

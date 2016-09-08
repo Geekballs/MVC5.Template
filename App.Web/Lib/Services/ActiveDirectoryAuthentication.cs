@@ -10,7 +10,7 @@ namespace App.Web.Lib.Services
     {
         private readonly IUserService _userService;
 
-        public AdAuthenticationService(IUserService userService, IRoleService roleService)
+        public AdAuthenticationService(IUserService userService)
         {
             _userService = userService;
         }
@@ -97,7 +97,13 @@ namespace App.Web.Lib.Services
                 identity.AddClaim(new Claim(ClaimTypes.Email, userPrincipal.EmailAddress));
             }
 
-            // Add more claims to the cookie here...
+            var user = _userService.GetByName(userPrincipal.SamAccountName);
+            var userRoles = _userService.GetRolesForUser(user.UserId);
+
+            foreach (var role in userRoles)
+            {
+                identity.AddClaim(new Claim(ClaimTypes.Role, role.Role.Name));
+            }
 
             return identity;
         }

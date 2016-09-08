@@ -1,24 +1,14 @@
-﻿using System.Web;
+﻿using System.Linq;
+using System.Security.Claims;
+using System.Threading;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using App.Web.Lib.Data.Services;
 
 namespace App.Web.Lib.Attributes
 {
     public class TrustAttribute : AuthorizeAttribute
     {
-        private readonly IUserService _userService;
-
-        public TrustAttribute(IUserService userService, IRoleService roleService)
-        {
-            _userService = userService;
-        }
-
-        public TrustAttribute() : base()
-        {
-        }
-
-
         public string AccessToken { get; set; }
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext ctx)
@@ -35,26 +25,22 @@ namespace App.Web.Lib.Attributes
             {
                 ctx.Result = new RedirectToRouteResult(new RouteValueDictionary(new
                 {
-                    controller = "Auth",
-                    action = "SignOut"
+                    controller = "Error",
+                    action = "Http403"
                 }));
             }
         }
 
         protected override bool AuthorizeCore(HttpContextBase ctx)
         {
-            var user = ctx.User.Identity.Name;
             var isAuthorized = ctx.User.Identity.IsAuthenticated;
-
+            var identity = (ClaimsPrincipal) Thread.CurrentPrincipal;
+            var doesUserHaveRequiredRole = identity.Claims.Count(c => c.Type == ClaimTypes.Role && c.Value == AccessToken) > 0;
             if (isAuthorized && AccessToken != null)
             {
-                return _userService.UserTrust(user, AccessToken);
+                return doesUserHaveRequiredRole;
             }
-            if (isAuthorized)
-            {
-                return _userService.GetByName(user).Enabled;
-            }
-            return false;
+            return isAuthorized;
         }
     }
 }

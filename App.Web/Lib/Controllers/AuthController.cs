@@ -34,12 +34,11 @@ namespace App.Web.Lib.Controllers
         }
 
         [Route("Sign-Out"), HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public virtual ActionResult SignOut()
         {
             var authManager = HttpContext.GetOwinContext().Authentication;
             authManager.SignOut(MyAuthentication.ApplicationCookie);
-
             return RedirectToAction("SignIn", "Auth");
         }
     }

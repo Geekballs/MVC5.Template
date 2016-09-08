@@ -13,7 +13,6 @@ namespace App.Web.Lib.Data.Services
         void CreateUser(string name, bool enabled, bool locked, IEnumerable<Guid> roles);
         void EditUser(Guid userId, string name, bool enabled, bool locked, IEnumerable<Guid> roles);
         void DeleteUser(Guid userId);
-        bool UserTrust(string name, string accessToken);
         void Save();
     }
 }

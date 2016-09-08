@@ -68,7 +68,6 @@ namespace App.Web.Lib.Controllers
             {
                 UserId = ru.UserId,
                 UserName = ru.User.Name
-
             }).ToList();
             model.RoleUsersDetail = userDetail;
             return View("Detail", model);

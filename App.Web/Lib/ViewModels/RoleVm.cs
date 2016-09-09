@@ -50,10 +50,14 @@ namespace App.Web.Lib.ViewModels
         {
             [DisplayName("Name")]
             [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
+            [StringLength(100, ErrorMessage = "Maximum {1} Characters Exceeded!")]
+            [RegularExpression("[A-Za-z0-9]*", ErrorMessage = "Alphanumeric Characters Only Please!")]
             public string RoleName { get; set; }
 
             [DisplayName("Description")]
             [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
+            [StringLength(450, ErrorMessage = "Maximum {1} Characters Exceeded!")]
+            [RegularExpression("[A-Za-z0-9]*", ErrorMessage = "Alphanumeric Characters Only Please!")]
             public string RoleDescription { get; set; }
 
             [DisplayName("Enabled")]
@@ -69,10 +73,14 @@ namespace App.Web.Lib.ViewModels
 
             [DisplayName("Name")]
             [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
+            [StringLength(100, ErrorMessage = "Maximum {1} Characters Exceeded!")]
+            [RegularExpression("[A-Za-z0-9]*", ErrorMessage = "Alphanumeric Characters Only Please!")]
             public string RoleName { get; set; }
 
             [DisplayName("Description")]
             [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
+            [StringLength(450, ErrorMessage = "Maximum {1} Characters Exceeded!")]
+            [RegularExpression("[A-Za-z0-9]*", ErrorMessage = "Alphanumeric Characters Only Please!")]
             public string RoleDescription { get; set; }
 
             [DisplayName("Enabled")]

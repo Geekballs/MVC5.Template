@@ -53,14 +53,20 @@ namespace App.Web.Lib.ViewModels
         {
             [DisplayName("User Name")]
             [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
+            [StringLength(100, ErrorMessage = "Maximum {1} Characters Exceeded!")]
+            [RegularExpression("[A-Za-z0-9]*", ErrorMessage = "Alphanumeric Characters Only Please!")]
             public string UserName { get; set; }
 
             [DisplayName("First Name")]
             [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
+            [StringLength(100, ErrorMessage = "Maximum {1} Characters Exceeded!")]
+            [RegularExpression("[A-Za-z0-9]*", ErrorMessage = "Alphanumeric Characters Only Please!")]
             public string FirstName { get; set; }
 
             [DisplayName("Last Name")]
             [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
+            [StringLength(100, ErrorMessage = "Maximum {1} Characters Exceeded!")]
+            [RegularExpression("[A-Za-z0-9]*", ErrorMessage = "Alphanumeric Characters Only Please!")]
             public string LastName { get; set; }
 
             [DisplayName("Enabled")]
@@ -78,14 +84,20 @@ namespace App.Web.Lib.ViewModels
 
             [DisplayName("User Name")]
             [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
+            [StringLength(100, ErrorMessage = "Maximum {1} Characters Exceeded!")]
+            [RegularExpression("[A-Za-z0-9]*", ErrorMessage = "Alphanumeric Characters Only Please!")]
             public string UserName { get; set; }
 
             [DisplayName("First Name")]
             [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
+            [StringLength(100, ErrorMessage = "Maximum {1} Characters Exceeded!")]
+            [RegularExpression("[A-Za-z0-9]*", ErrorMessage = "Alphanumeric Characters Only Please!")]
             public string FirstName { get; set; }
 
             [DisplayName("Last Name")]
             [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
+            [StringLength(100, ErrorMessage = "Maximum {1} Characters Exceeded!")]
+            [RegularExpression("[A-Za-z0-9]*", ErrorMessage = "Alphanumeric Characters Only Please!")]
             public string LastName { get; set; }
 
             [DisplayName("Enabled")]

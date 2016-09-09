@@ -1,6 +1,6 @@
 ﻿using System.Web;
 using System.Web.Mvc;
-using App.Web.Lib.Services;
+using App.Web.Lib.Managers;
 using App.Web.Lib.ViewModels;
 
 namespace App.Web.Lib.Controllers
@@ -22,7 +22,7 @@ namespace App.Web.Lib.Controllers
                 return View(model);
             }
             var authManager = HttpContext.GetOwinContext().Authentication;
-            var authService = new AdAuthenticationService(authManager);
+            var authService = new ActiveDirectoryAuthenticationManager(authManager);
             var authResult = authService.SignIn(model.Username, model.Password);
             if (authResult.IsSuccess)
             {

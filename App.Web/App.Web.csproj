@@ -510,10 +510,11 @@
     <Compile Include="Lib\Data\Services\IRoleService.cs" />
     <Compile Include="Lib\Data\Services\UserService.cs" />
     <Compile Include="Lib\Data\Services\RoleService.cs" />
+    <Compile Include="Lib\Managers\ApplicationAuthenticationManager.cs" />
     <Compile Include="Lib\ViewModels\AuthVm.cs" />
     <Compile Include="App_Start\AppConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
-    <Compile Include="Lib\Services\ActiveDirectoryAuthentication.cs" />
+    <Compile Include="Lib\Managers\ActiveDirectoryAuthenticationManager.cs" />
     <Compile Include="Lib\Controllers\BaseController.cs" />
     <Compile Include="Lib\Controllers\LayoutController.cs" />
     <Compile Include="Lib\Data\Contexts\AppDbContext.cs" />
@@ -812,7 +813,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Assets\dist\img\" />
-    <Folder Include="_Utilities\BootstrapPacks\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

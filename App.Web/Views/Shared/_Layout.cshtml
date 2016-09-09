@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@AppConfig.AppName - @ViewBag.Title</title>
     
-    <link href="~/_Utilities/BootstrapThemes/Default/bootstrap.css" rel="stylesheet" />
+    <link href="~/Assets/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Assets/dist/css/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Assets/dist/css/app.css" rel="stylesheet" />
 
@@ -19,7 +19,6 @@
 <body>
     <div id="alert-container"></div>
     <div class="header-container">@Html.Action("Header", "Layout")</div>
-    @*<div class="sub-navigation-container">@Html.Action("SubNavigation", "Layout")</div>*@
     <div class="clearfix"></div>
     <div class="view-container">@RenderBody()</div>
     <div class="footer-container">@Html.Action("Footer", "Layout")</div>

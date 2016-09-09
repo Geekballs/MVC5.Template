@@ -1,19 +1,13 @@
 ﻿using System;
 using System.DirectoryServices.AccountManagement;
 using System.Security.Claims;
-using App.Web.Lib.Data.Services;
 using Microsoft.Owin.Security;
 
-namespace App.Web.Lib.Services
+namespace App.Web.Lib.Managers
 {
-    public class AdAuthenticationService
+    public class ActiveDirectoryAuthenticationManager
     {
-        private readonly IUserService _userService;
-
-        public AdAuthenticationService(IUserService userService)
-        {
-            _userService = userService;
-        }
+        private readonly ApplicationAuthenticationManager _avdam = new ApplicationAuthenticationManager();
 
         public class AuthenticationResult
         {
@@ -28,7 +22,7 @@ namespace App.Web.Lib.Services
 
         private readonly IAuthenticationManager _authManager;
 
-        public AdAuthenticationService(IAuthenticationManager authManager)
+        public ActiveDirectoryAuthenticationManager(IAuthenticationManager authManager)
         {
             _authManager = authManager;
         }
@@ -49,7 +43,7 @@ namespace App.Web.Lib.Services
             try
             {
                 isAuthed = principalCtx.ValidateCredentials(username, password, ContextOptions.Negotiate);
-                if (isAuthed && _userService.GetByName(username).Enabled)
+                if (isAuthed && ApplicationAuthenticationManager.GetUserByName(username).Enabled)
                 {
                     userPrincipal = UserPrincipal.FindByIdentity(principalCtx, username);
                 }
@@ -61,24 +55,24 @@ namespace App.Web.Lib.Services
             }
 
             // The user has been authenticated, but they are not enabled in this application.
-            if (isAuthed && !_userService.GetByName(username).Enabled)
+            if (isAuthed && !ApplicationAuthenticationManager.GetUserByName(username).Enabled)
             {
-                return new AuthenticationResult("Unauthorized!");
+                return new AuthenticationResult("Unauthorized Application Access!");
             }
 
             if (!isAuthed || userPrincipal == null)
             {
-                return new AuthenticationResult("Username or Password is not correct");
+                return new AuthenticationResult("Incorrect Credentials!");
             }
 
             if (userPrincipal.IsAccountLockedOut())
             {
-                return new AuthenticationResult("Your account is locked.");
+                return new AuthenticationResult("AD Account Locked!");
             }
 
             if (userPrincipal.Enabled.HasValue && userPrincipal.Enabled.Value == false)
             {
-                return new AuthenticationResult("Your account is disabled");
+                return new AuthenticationResult("AD Account Disabled!");
             }
             var identity = CreateIdentity(userPrincipal);
             _authManager.SignOut(MyAuthentication.ApplicationCookie);
@@ -97,8 +91,8 @@ namespace App.Web.Lib.Services
                 identity.AddClaim(new Claim(ClaimTypes.Email, userPrincipal.EmailAddress));
             }
 
-            var user = _userService.GetByName(userPrincipal.SamAccountName);
-            var userRoles = _userService.GetRolesForUser(user.UserId);
+            var user = ApplicationAuthenticationManager.GetUserByName(userPrincipal.SamAccountName);
+            var userRoles = ApplicationAuthenticationManager.GetRolesForUser(user.UserId);
 
             foreach (var role in userRoles)
             {

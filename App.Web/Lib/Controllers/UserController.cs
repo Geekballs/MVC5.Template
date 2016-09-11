@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using App.Web.Lib.Attributes;
 using App.Web.Lib.Data.Services;
 using App.Web.Lib.Models;
 using App.Web.Lib.ViewModels;
@@ -10,6 +11,7 @@ using X.PagedList;
 namespace App.Web.Lib.Controllers
 {
     [RoutePrefix("Admin")]
+    [Trust(Privilege = "Admin")]
     public class UserController : BaseController
     {
         private readonly IUserService _userService;

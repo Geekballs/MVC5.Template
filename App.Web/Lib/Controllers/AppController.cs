@@ -10,5 +10,10 @@ namespace App.Web.Lib.Controllers
         {
            return View();
         }
+
+        public ActionResult About()
+        {
+            return View();
+        }
     }
 }

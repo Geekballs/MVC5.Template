@@ -9,7 +9,7 @@ namespace App.Web.Lib.Attributes
 {
     public class TrustAttribute : AuthorizeAttribute
     {
-        public string AccessToken { get; set; }
+        public string Privilege { get; set; }
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext ctx)
         {
@@ -35,8 +35,8 @@ namespace App.Web.Lib.Attributes
         {
             var isAuthorized = ctx.User.Identity.IsAuthenticated;
             var identity = (ClaimsPrincipal) Thread.CurrentPrincipal;
-            var doesUserHaveRequiredRole = identity.Claims.Count(c => c.Type == ClaimTypes.Role && c.Value == AccessToken) > 0;
-            if (isAuthorized && AccessToken != null)
+            var doesUserHaveRequiredRole = identity.Claims.Count(c => c.Type == ClaimTypes.Role && c.Value == Privilege) > 0;
+            if (isAuthorized && Privilege != null)
             {
                 return doesUserHaveRequiredRole;
             }

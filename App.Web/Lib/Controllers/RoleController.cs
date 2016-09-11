@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using App.Web.Lib.Attributes;
 using App.Web.Lib.Data.Services;
 using App.Web.Lib.ViewModels;
 using X.PagedList;
@@ -9,6 +10,7 @@ using X.PagedList;
 namespace App.Web.Lib.Controllers
 {
     [RoutePrefix("Admin")]
+    [Trust(Privilege = "Admin")]
     public class RoleController : BaseController
     {
         private readonly IRoleService _roleService;

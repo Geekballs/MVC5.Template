@@ -34,26 +34,22 @@ namespace App.Web.Lib.Data.Services
             return roleUsers;
         }
 
-        public void CreateRole(string name, string description, bool enabled, bool locked)
+        public void CreateRole(string name, string description)
         {
             var role = new Role()
             {
                 Name = name,
-                Description = description,
-                Enabled = enabled,
-                Locked = locked
+                Description = description
             };
             _ctx.Roles.Add(role);
             _ctx.SaveChanges();
         }
 
-        public void EditRole(Guid id, string name, string description, bool enabled, bool locked)
+        public void EditRole(Guid id, string name, string description)
         {
             var role = _ctx.Roles.First(r => r.RoleId == id);
             role.Name = name;
             role.Description = description;
-            role.Enabled = enabled;
-            role.Locked = locked;
             _ctx.SaveChanges();
         }
 

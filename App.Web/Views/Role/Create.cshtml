@@ -33,29 +33,12 @@
                                             @Html.TextBoxFor(m => m.RoleName, new { @class = "form-control" })
                                             @Html.ValidationMessageFor(m => m.RoleName, string.Empty, new { @class = "text-danger" })
                                         </div>
+                                    </div>
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             @Html.LabelFor(m => m.RoleDescription)
                                             @Html.TextAreaFor(m => m.RoleDescription, new { @class = "form-control", rows = 6 })
                                             @Html.ValidationMessageFor(m => m.RoleDescription, string.Empty, new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            @Html.Label("Settings")
-                                            <div class="alert alert-info">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        @Html.CheckBoxFor(m => m.RoleEnabled)
-                                                        @Html.LabelFor(m => m.RoleEnabled)
-                                                    </label>
-                                                </div>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        @Html.CheckBoxFor(m => m.RoleLocked)
-                                                        @Html.LabelFor(m => m.RoleLocked)
-                                                    </label>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>

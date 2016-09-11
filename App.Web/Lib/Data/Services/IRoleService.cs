@@ -9,8 +9,8 @@ namespace App.Web.Lib.Data.Services
         IEnumerable<Role> GetAllRoles();
         Role GetById(Guid roleId);
         IEnumerable<UserRole> GetUsersInRole(Guid roleId);
-        void CreateRole(string name, string description, bool enabled, bool locked);
-        void EditRole(Guid id, string name, string description, bool enabled, bool locked);
+        void CreateRole(string name, string description);
+        void EditRole(Guid id, string name, string description);
         void DeleteRole(Guid roleId);
         void Save();
     }

@@ -28,9 +28,7 @@ namespace App.Web.Lib.Controllers
                 RoleId = r.RoleId,
                 RoleName = r.Name,
                 RoleDescription = r.Description,
-                RoleUserCount = r.UserRoles.Count,
-                RoleLocked = r.Locked,
-                RoleEnabled = r.Enabled
+                RoleUserCount = r.UserRoles.Count
             });
             if (!string.IsNullOrEmpty(term))
             {
@@ -59,9 +57,7 @@ namespace App.Web.Lib.Controllers
             {
                 RoleId = role.RoleId,
                 RoleName = role.Name,
-                RoleDescription = role.Description,
-                RoleEnabled = role.Enabled,
-                RoleLocked = role.Locked
+                RoleDescription = role.Description
             };
             var roleUsers = _roleService.GetUsersInRole(id);
             var userDetail = roleUsers.Select(ru => new RoleVm.RoleUsersDetail()
@@ -89,7 +85,7 @@ namespace App.Web.Lib.Controllers
         {
             if (ModelState.IsValid)
             {
-                _roleService.CreateRole(model.RoleName, model.RoleDescription, model.RoleEnabled, model.RoleLocked);
+                _roleService.CreateRole(model.RoleName, model.RoleDescription);
                 GetAlert(Success, "Role created!");
                 return RedirectToAction("Index");
             }
@@ -114,9 +110,7 @@ namespace App.Web.Lib.Controllers
             {
                 RoleId = role.RoleId,
                 RoleName = role.Name,
-                RoleDescription = role.Description,
-                RoleEnabled = role.Enabled,
-                RoleLocked = role.Locked
+                RoleDescription = role.Description
             };
             return View("Edit", model);
         }
@@ -126,7 +120,7 @@ namespace App.Web.Lib.Controllers
         {
             if (ModelState.IsValid)
             {
-                _roleService.EditRole(model.RoleId, model.RoleName, model.RoleDescription, model.RoleEnabled, model.RoleLocked);
+                _roleService.EditRole(model.RoleId, model.RoleName, model.RoleDescription);
                 GetAlert(Success, "Role updated!");
                 return RedirectToAction("Index");
             }
@@ -151,9 +145,7 @@ namespace App.Web.Lib.Controllers
             {
                 RoleId = role.RoleId,
                 RoleName = role.Name,
-                RoleDescription = role.Description,
-                RoleEnabled = role.Enabled,
-                RoleLocked = role.Locked
+                RoleDescription = role.Description
             };
             return View("Delete", model);
         }

@@ -30,11 +30,12 @@ namespace App.Web.Lib.Controllers
             {
                 UserId = u.UserId,
                 UserName = u.UserName,
-                FirstName = u.FirstName,
-                LastName = u.LastName,
-                UserRoleCount = u.UserRoles.Count,
-                UserLocked = u.Locked,
-                UserEnabled = u.Enabled
+                UserFirstName = u.FirstName,
+                UserLastName = u.LastName,
+                UserAlias = u.Alias,
+                EmailAddress = u.EmailAddress,
+                LoginEnabled = u.LoginEnabled,
+                UserRoleCount = u.UserRoles.Count
             });
             if (!string.IsNullOrEmpty(term))
             {
@@ -64,10 +65,11 @@ namespace App.Web.Lib.Controllers
             {
                 UserId = user.UserId,
                 UserName = user.UserName,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                UserEnabled = user.Enabled,
-                UserLocked = user.Locked
+                UserFirstName = user.FirstName,
+                UserLastName = user.LastName,
+                UserAlias = user.Alias,
+                UserEmailAddress = user.EmailAddress,
+                UserLoginEnabled = user.LoginEnabled
             };
             var userRoles = _userService.GetRolesForUser(id);
             var roleDetail = userRoles.Select(rd => new UserVm.UserRolesDetail()
@@ -104,8 +106,8 @@ namespace App.Web.Lib.Controllers
             if (ModelState.IsValid)
             {
                 var rolesToAdd = model.Roles.Where(r => r.IsChecked).Select(r => r.Id).ToList();
-                _userService.CreateUser(model.UserName, model.FirstName, model.LastName, model.UserEnabled, model.UserLocked, rolesToAdd);
-                GetAlert(Success, "Role created!");
+                _userService.CreateUser(model.UserName, model.UserFirstName, model.UserLastName, model.UserAlias, model.UserEmailAddress, model.UserLoginEnabled, rolesToAdd);
+                GetAlert(Success, "User created!");
                 return RedirectToAction("Index");
             }
             GetAlert(Danger, "Error!");
@@ -129,10 +131,11 @@ namespace App.Web.Lib.Controllers
             {
                 UserId = user.UserId,
                 UserName = user.UserName,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                UserEnabled = user.Enabled,
-                UserLocked = user.Locked
+                UserFirstName = user.FirstName,
+                UserLastName = user.LastName,
+                UserAlias = user.Alias,
+                UserEmailAddress = user.EmailAddress,
+                UserLoginEnabled = user.LoginEnabled
             };
             var userRoles = _userService.GetRolesForUser(id);
             var roles = _roleService.GetAllRoles();
@@ -152,8 +155,8 @@ namespace App.Web.Lib.Controllers
             if (ModelState.IsValid)
             {
                 var rolesToAdd = model.Roles.Where(r => r.IsChecked).Select(r => r.Id).ToList();
-                _userService.EditUser(model.UserId, model.UserName, model.FirstName, model.LastName, model.UserEnabled, model.UserLocked, rolesToAdd);
-                GetAlert(Success, "Role updated!");
+                _userService.EditUser(model.UserId, model.UserName, model.UserFirstName, model.UserLastName, model.UserAlias, model.UserEmailAddress, model.UserLoginEnabled, rolesToAdd);
+                GetAlert(Success, "User updated!");
                 return RedirectToAction("Index");
             }
             GetAlert(Danger, "Error!");
@@ -177,10 +180,11 @@ namespace App.Web.Lib.Controllers
             {
                 UserId = user.UserId,
                 UserName = user.UserName,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                UserEnabled = user.Enabled,
-                UserLocked = user.Locked
+                UserFirstName = user.FirstName,
+                UserLastName = user.LastName,
+                UserAlias = user.Alias,
+                EmailAddress = user.EmailAddress,
+                UserLoginEnabled = user.LoginEnabled
             };
             return View("Delete", model);
         }

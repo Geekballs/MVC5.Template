@@ -55,10 +55,8 @@
                                         <thead>
                                         <tr>
                                             <th class="col-md-4">ID</th>
-                                            <th class="col-md-5">Name</th>
+                                            <th class="col-md-7">Name</th>
                                             <th class="col-md-1 text-center">Users</th>
-                                            <th class="col-md-1 text-center">Enabled</th>
-                                            <th class="col-md-1 text-center">Locked</th>
                                             <th class=""></th>
                                         </tr>
                                         </thead>
@@ -76,26 +74,6 @@
                                                     else
                                                     {
                                                         <span class="label label-danger">@i.RoleUserCount</span>
-                                                    }
-                                                </td>
-                                                <td class="vert-align text-center">
-                                                    @if (i.RoleEnabled)
-                                                    {
-                                                        <span class="fa fa-fw fa-check text-success"></span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="fa fa-fw fa-times text-danger"></span>
-                                                    }
-                                                </td>
-                                                <td class="vert-align text-center">
-                                                    @if (i.RoleLocked)
-                                                    {
-                                                        <span class="fa fa-fw fa-check text-success"></span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="fa fa-fw fa-times text-danger"></span>
                                                     }
                                                 </td>
                                                 <td class="vert-align">

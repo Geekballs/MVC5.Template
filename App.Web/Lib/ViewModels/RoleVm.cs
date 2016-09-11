@@ -13,8 +13,6 @@ namespace App.Web.Lib.ViewModels
             public string RoleName { get; set; }
             public string RoleDescription { get; set; }
             public int RoleUserCount { get; set; }
-            public bool RoleEnabled { get; set; }
-            public bool RoleLocked { get; set; }
 
         }
 
@@ -28,12 +26,6 @@ namespace App.Web.Lib.ViewModels
 
             [DisplayName("Description")]
             public string RoleDescription { get; set; }
-
-            [DisplayName("Enabled")]
-            public bool RoleEnabled { get; set; }
-
-            [DisplayName("Locked")]
-            public bool RoleLocked { get; set; }
 
             [DisplayName("Role Users")]
             public List<RoleUsersDetail> RoleUsersDetail { get; set; }
@@ -59,12 +51,6 @@ namespace App.Web.Lib.ViewModels
             [StringLength(450, ErrorMessage = "Maximum {1} Characters Exceeded!")]
             [RegularExpression("[A-Za-z0-9]*", ErrorMessage = "Alphanumeric Characters Only Please!")]
             public string RoleDescription { get; set; }
-
-            [DisplayName("Enabled")]
-            public bool RoleEnabled { get; set; }
-
-            [DisplayName("Locked")]
-            public bool RoleLocked { get; set; }
         }
 
         public class Edit
@@ -82,12 +68,6 @@ namespace App.Web.Lib.ViewModels
             [StringLength(450, ErrorMessage = "Maximum {1} Characters Exceeded!")]
             [RegularExpression("[A-Za-z0-9]*", ErrorMessage = "Alphanumeric Characters Only Please!")]
             public string RoleDescription { get; set; }
-
-            [DisplayName("Enabled")]
-            public bool RoleEnabled { get; set; }
-
-            [DisplayName("Locked")]
-            public bool RoleLocked { get; set; }
         }
 
         public class Delete
@@ -99,12 +79,6 @@ namespace App.Web.Lib.ViewModels
 
             [DisplayName("Description")]
             public string RoleDescription { get; set; }
-
-            [DisplayName("Enabled")]
-            public bool RoleEnabled { get; set; }
-
-            [DisplayName("Locked")]
-            public bool RoleLocked { get; set; }
         }
     }
 }

@@ -16,7 +16,7 @@ namespace App.Web.Lib.Managers
         {
             using (var ctx = new AppDbContext())
             {
-                var user = ctx.Users.Count(u => u.UserName == name && u.Enabled) > 0;
+                var user = ctx.Users.Count(u => u.UserName == name && u.LoginEnabled) > 0;
                 return user;
             }
         }

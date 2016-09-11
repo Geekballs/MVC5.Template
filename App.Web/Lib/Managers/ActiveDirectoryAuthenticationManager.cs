@@ -43,7 +43,7 @@ namespace App.Web.Lib.Managers
             try
             {
                 isAuthed = principalCtx.ValidateCredentials(username, password, ContextOptions.Negotiate);
-                if (isAuthed && ApplicationAuthenticationManager.GetUserByName(username).Enabled)
+                if (isAuthed && ApplicationAuthenticationManager.GetUserByName(username).LoginEnabled)
                 {
                     userPrincipal = UserPrincipal.FindByIdentity(principalCtx, username);
                 }
@@ -55,7 +55,7 @@ namespace App.Web.Lib.Managers
             }
 
             // The user has been authenticated, but they are not enabled in this application.
-            if (isAuthed && !ApplicationAuthenticationManager.GetUserByName(username).Enabled)
+            if (isAuthed && !ApplicationAuthenticationManager.GetUserByName(username).LoginEnabled)
             {
                 return new AuthenticationResult("Unauthorized Application Access!");
             }

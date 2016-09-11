@@ -53,14 +53,15 @@
                                 <div class="table-responsive">
                                     <table class="table table-striped table-bordered table-hover table-condensed" style="margin-bottom: 0px;">
                                         <thead>
-                                            <tr>
-                                                <th class="col-md-4">ID</th>
-                                                <th class="col-md-5">Name</th>
-                                                <th class="col-md-1 text-center">Roles</th>
-                                                <th class="col-md-1 text-center">Enabled</th>
-                                                <th class="col-md-1 text-center">Locked</th>
-                                                <th class=""></th>
-                                            </tr>
+                                        <tr>
+                                            <th class="col-md-3">ID</th>
+                                            <th class="col-md-2">UserName</th>
+                                            <th class="col-md-2">Alias</th>
+                                            <th class="col-md-3">Email</th>
+                                            <th class="col-md-1 text-center">Roles</th>
+                                            <th class="col-md-1 text-center">Login</th>
+                                            <th class=""></th>
+                                        </tr>
                                         </thead>
                                         <tbody>
                                             @foreach (var i in Model)
@@ -68,6 +69,8 @@
                                                 <tr>
                                                     <td class="vert-align text-uppercase">@i.UserId</td>
                                                     <td class="vert-align">@i.UserName</td>
+                                                    <td class="vert-align">@i.UserAlias</td>
+                                                    <td class="vert-align">@i.EmailAddress</td>
                                                     <td class="vert-align text-center">
                                                         @if (i.UserRoleCount > 0)
                                                         {
@@ -79,17 +82,7 @@
                                                         }
                                                     </td>
                                                     <td class="vert-align text-center">
-                                                        @if (i.UserEnabled)
-                                                        {
-                                                            <span class="fa fa-fw fa-check text-success"></span>
-                                                        }
-                                                        else
-                                                        {
-                                                            <span class="fa fa-fw fa-times text-danger"></span>
-                                                        }
-                                                    </td>
-                                                    <td class="vert-align text-center">
-                                                        @if (i.UserLocked)
+                                                        @if (i.LoginEnabled)
                                                         {
                                                             <span class="fa fa-fw fa-check text-success"></span>
                                                         }

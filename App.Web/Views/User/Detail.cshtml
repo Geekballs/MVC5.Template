@@ -38,15 +38,27 @@
                                         </div>
                                     </div>
                                     <div>
-                                        @Html.LabelFor(m => m.FirstName)
+                                        @Html.LabelFor(m => m.UserFirstName)
                                         <div class="alert alert-info">
-                                            <p>@Model.FirstName</p>
+                                            <p>@Model.UserFirstName</p>
                                         </div>
                                     </div>
                                     <div>
-                                        @Html.LabelFor(m => m.LastName)
+                                        @Html.LabelFor(m => m.UserLastName)
                                         <div class="alert alert-info">
-                                            <p>@Model.LastName</p>
+                                            <p>@Model.UserLastName</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        @Html.LabelFor(m => m.UserAlias)
+                                        <div class="alert alert-info">
+                                            <p>@Model.UserAlias</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        @Html.LabelFor(m => m.UserEmailAddress)
+                                        <div class="alert alert-info">
+                                            <p>@Model.UserEmailAddress</p>
                                         </div>
                                     </div>
                                 </div>
@@ -57,24 +69,13 @@
                                             <ul class="list-group">
                                                 <li class="list-group-item">
                                                     <span class="fa fa-fw fa-caret-right"></span>
-                                                    @if (@Model.UserEnabled)
+                                                    @if (@Model.UserLoginEnabled)
                                                     {
-                                                        @:User Enabled
+                                                        @:User Login Enabled
                                                     }
                                                     else
                                                     {
-                                                        @:User Disabled
-                                                    }
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <span class="fa fa-fw fa-caret-right"></span>
-                                                    @if (@Model.UserLocked)
-                                                    {
-                                                        @:User Locked
-                                                        }
-                                                    else
-                                                    {
-                                                        @:User Unlocked
+                                                        @:User Login Disabled
                                                     }
                                                 </li>
                                             </ul>

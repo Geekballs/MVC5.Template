@@ -40,15 +40,16 @@ namespace App.Web.Lib.Data.Services
             return userRoles;
         }
 
-        public void CreateUser(string userName, string firstName, string lastName, bool enabled, bool locked, IEnumerable<Guid> roles)
+        public void CreateUser(string userName, string firstName, string lastName, string alias, string emailAddress, bool loginEnabled, IEnumerable<Guid> roles)
         {
             var user = new User()
             {
                 UserName = userName,
                 FirstName = firstName,
                 LastName = lastName,
-                Enabled = enabled,
-                Locked = locked
+                Alias = alias,
+                EmailAddress = emailAddress,
+                LoginEnabled = loginEnabled
             };
             foreach (var roleId in roles)
             {
@@ -63,14 +64,15 @@ namespace App.Web.Lib.Data.Services
             _ctx.SaveChanges();
         }
 
-        public void EditUser(Guid id, string userName, string firstName, string lastName, bool enabled, bool locked, IEnumerable<Guid> roles)
+        public void EditUser(Guid id, string userName, string firstName, string lastName, string alias, string emailAddress, bool loginEnabled, IEnumerable<Guid> roles)
         {
             var user = _ctx.Users.First(u => u.UserId == id);
             user.UserName = userName;
             user.FirstName = firstName;
             user.LastName = lastName;
-            user.Enabled = enabled;
-            user.Locked = locked;
+            user.Alias = alias;
+            user.EmailAddress = emailAddress;
+            user.LoginEnabled = loginEnabled;
             user.UserRoles.Clear();
             _ctx.SaveChanges();
 

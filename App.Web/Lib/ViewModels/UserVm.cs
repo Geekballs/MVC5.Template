@@ -12,11 +12,12 @@ namespace App.Web.Lib.ViewModels
         {
             public Guid UserId { get; set; }
             public string UserName { get; set; }
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
+            public string UserFirstName { get; set; }
+            public string UserLastName { get; set; }
+            public string UserAlias { get; set; }
+            public string EmailAddress { get; set; }
+            public bool LoginEnabled { get; set; }
             public int UserRoleCount { get; set; }
-            public bool UserEnabled { get; set; }
-            public bool UserLocked { get; set; }
         }
 
         public class Detail
@@ -28,16 +29,19 @@ namespace App.Web.Lib.ViewModels
             public string UserName { get; set; }
 
             [DisplayName("First Name")]
-            public string FirstName { get; set; }
+            public string UserFirstName { get; set; }
 
             [DisplayName("Last Name")]
-            public string LastName { get; set; }
+            public string UserLastName { get; set; }
 
-            [DisplayName("Enabled")]
-            public bool UserEnabled { get; set; }
+            [DisplayName("Alias")]
+            public string UserAlias { get; set; }
 
-            [DisplayName("Locked")]
-            public bool UserLocked { get; set; }
+            [DisplayName("Email Address")]
+            public string UserEmailAddress { get; set; }
+
+            [DisplayName("Login Enabled")]
+            public bool UserLoginEnabled { get; set; }
 
             [DisplayName("Roles")]
             public List<UserRolesDetail> UserRolesDetail { get; set; }
@@ -61,19 +65,28 @@ namespace App.Web.Lib.ViewModels
             [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
             [StringLength(100, ErrorMessage = "Maximum {1} Characters Exceeded!")]
             [RegularExpression("[A-Za-z0-9]*", ErrorMessage = "Alphanumeric Characters Only Please!")]
-            public string FirstName { get; set; }
+            public string UserFirstName { get; set; }
 
             [DisplayName("Last Name")]
             [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
             [StringLength(100, ErrorMessage = "Maximum {1} Characters Exceeded!")]
             [RegularExpression("[A-Za-z0-9]*", ErrorMessage = "Alphanumeric Characters Only Please!")]
-            public string LastName { get; set; }
+            public string UserLastName { get; set; }
 
-            [DisplayName("Enabled")]
-            public bool UserEnabled { get; set; }
+            [DisplayName("Alias")]
+            [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
+            [StringLength(100, ErrorMessage = "Maximum {1} Characters Exceeded!")]
+            [RegularExpression("[A-Za-z0-9]*", ErrorMessage = "Alphanumeric Characters Only Please!")]
+            public string UserAlias { get; set; }
 
-            [DisplayName("Locked")]
-            public bool UserLocked { get; set; }
+            [DisplayName("Email Address")]
+            [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
+            [StringLength(100, ErrorMessage = "Maximum {1} Characters Exceeded!")]
+            [EmailAddress, DataType(DataType.EmailAddress, ErrorMessage = "Valid Email Address Required!")]
+            public string UserEmailAddress { get; set; }
+
+            [DisplayName("Login Enabled")]
+            public bool UserLoginEnabled { get; set; }
 
             public List<CheckBoxListItem> Roles { get; set; }
         }
@@ -92,19 +105,28 @@ namespace App.Web.Lib.ViewModels
             [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
             [StringLength(100, ErrorMessage = "Maximum {1} Characters Exceeded!")]
             [RegularExpression("[A-Za-z0-9]*", ErrorMessage = "Alphanumeric Characters Only Please!")]
-            public string FirstName { get; set; }
+            public string UserFirstName { get; set; }
 
             [DisplayName("Last Name")]
             [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
             [StringLength(100, ErrorMessage = "Maximum {1} Characters Exceeded!")]
             [RegularExpression("[A-Za-z0-9]*", ErrorMessage = "Alphanumeric Characters Only Please!")]
-            public string LastName { get; set; }
+            public string UserLastName { get; set; }
 
-            [DisplayName("Enabled")]
-            public bool UserEnabled { get; set; }
+            [DisplayName("Alias")]
+            [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
+            [StringLength(100, ErrorMessage = "Maximum {1} Characters Exceeded!")]
+            [RegularExpression("[A-Za-z0-9]*", ErrorMessage = "Alphanumeric Characters Only Please!")]
+            public string UserAlias { get; set; }
 
-            [DisplayName("Locked")]
-            public bool UserLocked { get; set; }
+            [DisplayName("Email Address")]
+            [Required(ErrorMessage = "Required!", AllowEmptyStrings = false)]
+            [StringLength(100, ErrorMessage = "Maximum {1} Characters Exceeded!")]
+            [EmailAddress, DataType(DataType.EmailAddress, ErrorMessage = "Valid Email Address Required!")]
+            public string UserEmailAddress { get; set; }
+
+            [DisplayName("Login Enabled")]
+            public bool UserLoginEnabled { get; set; }
 
             public List<CheckBoxListItem> Roles { get; set; }
         }
@@ -113,10 +135,11 @@ namespace App.Web.Lib.ViewModels
         {
             public Guid UserId { get; set; }
             public string UserName { get; set; }
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
-            public bool UserEnabled { get; set; }
-            public bool UserLocked { get; set; }
+            public string UserFirstName { get; set; }
+            public string UserLastName { get; set; }
+            public string UserAlias { get; set; }
+            public string EmailAddress { get; set; }
+            public bool UserLoginEnabled { get; set; }
         }
     }
 }

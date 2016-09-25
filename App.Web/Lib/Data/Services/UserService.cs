@@ -16,31 +16,19 @@ namespace App.Web.Lib.Data.Services
             _ctx = ctx;
         }
 
-        public IEnumerable<User> GetAllUsers()
+        public IEnumerable<User> GetAll()
         {
-            var users = _ctx.Users.Include(ur => ur.UserRoles).OrderBy(u => u.UserName).ToList();
+            var users = _ctx.Users.Include(t => t.UserRoles).OrderBy(p => p.UserName).ToList();
             return users;
         }
 
-        public User GetById(Guid userId)
+        public User GetById(Guid id)
         {
-            var user = _ctx.Users.Include(ur => ur.UserRoles).First(u => u.UserId == userId);
+            var user = _ctx.Users.Include(t => t.UserRoles).First(p => p.UserId == id);
             return user;
         }
 
-        public User GetByName(string name)
-        {
-            var user = _ctx.Users.Include(ur => ur.UserRoles).First(u => u.UserName == name);
-            return user;
-        }
-
-        public IEnumerable<UserRole> GetRolesForUser(Guid userId)
-        {
-            var userRoles = _ctx.UserRoles.Include(r => r.Role).Where(ur => ur.UserId == userId).ToList();
-            return userRoles;
-        }
-
-        public void CreateUser(string userName, string firstName, string lastName, string alias, string emailAddress, bool loginEnabled, IEnumerable<Guid> roles)
+        public void Create(string userName, string firstName, string lastName, string alias, string emailAddress, bool loginEnabled, IEnumerable<Guid> roles)
         {
             var user = new User()
             {
@@ -64,9 +52,9 @@ namespace App.Web.Lib.Data.Services
             _ctx.SaveChanges();
         }
 
-        public void EditUser(Guid id, string userName, string firstName, string lastName, string alias, string emailAddress, bool loginEnabled, IEnumerable<Guid> roles)
+        public void Edit(Guid id, string userName, string firstName, string lastName, string alias, string emailAddress, bool loginEnabled, IEnumerable<Guid> roles)
         {
-            var user = _ctx.Users.First(u => u.UserId == id);
+            var user = _ctx.Users.First(p => p.UserId == id);
             user.UserName = userName;
             user.FirstName = firstName;
             user.LastName = lastName;
@@ -88,11 +76,17 @@ namespace App.Web.Lib.Data.Services
             _ctx.SaveChanges();
         }
 
-        public void DeleteUser(Guid userId)
+        public void Delete(Guid id)
         {
-            var user = _ctx.Users.First(u => u.UserId == userId);
+            var user = _ctx.Users.First(p => p.UserId == id);
             _ctx.Users.Remove(user);
             _ctx.SaveChanges();
+        }
+
+        public IEnumerable<UserRole> GetRolesForUser(Guid id)
+        {
+            var userRoles = _ctx.UserRoles.Include(t => t.Role).Where(p => p.UserId == id).ToList();
+            return userRoles;
         }
 
         public void Save()

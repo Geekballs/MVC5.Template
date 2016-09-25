@@ -44,10 +44,10 @@ namespace App.Web.Lib.ViewModels
             public bool UserLoginEnabled { get; set; }
 
             [DisplayName("Roles")]
-            public List<UserRolesDetail> UserRolesDetail { get; set; }
+            public List<UserRoles> UserRolesList { get; set; }
         }
 
-        public class UserRolesDetail
+        public class UserRoles
         {
             public Guid RoleId { get; set; }
             public string RoleName { get; set; }
@@ -88,7 +88,7 @@ namespace App.Web.Lib.ViewModels
             [DisplayName("Login Enabled")]
             public bool UserLoginEnabled { get; set; }
 
-            public List<CheckBoxListItem> Roles { get; set; }
+            public List<CheckBoxListItem> RolesList { get; set; }
         }
 
         public class Edit
@@ -128,7 +128,7 @@ namespace App.Web.Lib.ViewModels
             [DisplayName("Login Enabled")]
             public bool UserLoginEnabled { get; set; }
 
-            public List<CheckBoxListItem> Roles { get; set; }
+            public List<CheckBoxListItem> RolesList { get; set; }
         }
 
         public class Delete

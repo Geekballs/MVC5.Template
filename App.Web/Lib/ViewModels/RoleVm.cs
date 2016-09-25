@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace App.Web.Lib.ViewModels
 {
-    public class RoleVm
+    public class RoleVm 
     {
         public class Index
         {
@@ -13,7 +13,6 @@ namespace App.Web.Lib.ViewModels
             public string RoleName { get; set; }
             public string RoleDescription { get; set; }
             public int RoleUserCount { get; set; }
-
         }
 
         public class Detail
@@ -28,10 +27,10 @@ namespace App.Web.Lib.ViewModels
             public string RoleDescription { get; set; }
 
             [DisplayName("Role Users")]
-            public List<RoleUsersDetail> RoleUsersDetail { get; set; }
+            public List<RoleUsers> RoleUsersList { get; set; }
         }
 
-        public class RoleUsersDetail
+        public class RoleUsers
         {
             public Guid UserId { get; set; }
             public string UserName { get; set; }

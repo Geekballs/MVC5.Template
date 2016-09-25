@@ -9,27 +9,27 @@ namespace App.Web.Lib.Data.Maps
         {
             #region Table
 
-            ToTable("UserRole", schemaName: "Security");
+            ToTable("UserRole", schemaName: "Membership");
 
             #endregion
 
             #region Keys
 
-            HasKey(ur => new { ur.UserId, ur.RoleId });
+            HasKey(k => new { k.UserId, k.RoleId });
 
             #endregion
 
             #region Relationships
 
-            HasRequired(u => u.User).WithMany(ur => ur.UserRoles).HasForeignKey(u => u.UserId);
-            HasRequired(r => r.Role).WithMany(ur => ur.UserRoles).HasForeignKey(r => r.RoleId);
+            HasRequired(r => r.User);
+            HasRequired(r => r.Role);
 
             #endregion
 
             #region Properties
 
-            Property(ur => ur.UserId).IsRequired().HasColumnName("UserId").HasColumnOrder(1);
-            Property(ur => ur.RoleId).IsRequired().HasColumnName("RoleId").HasColumnOrder(2);
+            Property(p => p.UserId).IsRequired().HasColumnName("UserId").HasColumnOrder(1);
+            Property(p => p.RoleId).IsRequired().HasColumnName("RoleId").HasColumnOrder(2);
 
             #endregion
         }

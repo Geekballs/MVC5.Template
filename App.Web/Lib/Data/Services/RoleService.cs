@@ -16,25 +16,19 @@ namespace App.Web.Lib.Data.Services
             _ctx = ctx;
         }
 
-        public IEnumerable<Role> GetAllRoles()
+        public IEnumerable<Role> GetAll()
         {
-            var roles = _ctx.Roles.Include(ur => ur.UserRoles).OrderBy(u => u.Name).ToList();
+            var roles = _ctx.Roles.Include(t => t.UserRoles).OrderBy(p => p.Name).ToList();
             return roles;
         }
 
-        public Role GetById(Guid roleId)
+        public Role GetById(Guid id)
         {
-            var role = _ctx.Roles.Include(ur => ur.UserRoles).First(r => r.RoleId == roleId);
+            var role = _ctx.Roles.Include(t => t.UserRoles).First(p => p.RoleId == id);
             return role;
         }
 
-        public IEnumerable<UserRole> GetUsersInRole(Guid roleId)
-        {
-            var roleUsers = _ctx.UserRoles.Include(u => u.User).Where(ur => ur.RoleId == roleId).OrderBy(u => u.User.UserName).ToList();
-            return roleUsers;
-        }
-
-        public void CreateRole(string name, string description)
+        public void Create(string name, string description)
         {
             var role = new Role()
             {
@@ -45,19 +39,25 @@ namespace App.Web.Lib.Data.Services
             _ctx.SaveChanges();
         }
 
-        public void EditRole(Guid id, string name, string description)
+        public void Edit(Guid id, string name, string description)
         {
-            var role = _ctx.Roles.First(r => r.RoleId == id);
+            var role = _ctx.Roles.First(p => p.RoleId == id);
             role.Name = name;
             role.Description = description;
             _ctx.SaveChanges();
         }
 
-        public void DeleteRole(Guid roleId)
+        public void Delete(Guid id)
         {
-            var role = _ctx.Roles.First(x => x.RoleId == roleId);
+            var role = _ctx.Roles.First(p => p.RoleId == id);
             _ctx.Roles.Remove(role);
             _ctx.SaveChanges();
+        }
+
+        public IEnumerable<UserRole> GetUsersInRole(Guid id)
+        {
+            var roleUsers = _ctx.UserRoles.Include(t => t.User).Where(p => p.RoleId == id).OrderBy(p => p.User.UserName).ToList();
+            return roleUsers;
         }
 
         public void Save()

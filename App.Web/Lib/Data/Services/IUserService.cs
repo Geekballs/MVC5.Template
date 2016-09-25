@@ -6,13 +6,13 @@ namespace App.Web.Lib.Data.Services
 {
     public interface IUserService
     {
-        IEnumerable<User> GetAllUsers();
-        User GetById(Guid userId);
-        User GetByName(string name);
-        IEnumerable<UserRole> GetRolesForUser(Guid userId);
-        void CreateUser(string userName, string firstName, string lastName, string alias, string emailAddress, bool loginEnabled, IEnumerable<Guid> roles);
-        void EditUser(Guid userId, string userName, string firstName, string lastName, string alias, string emailAddress, bool loginEnabled, IEnumerable<Guid> roles);
-        void DeleteUser(Guid userId);
+        IEnumerable<User> GetAll();
+        User GetById(Guid id);
+        void Create(string userName, string firstName, string lastName, string alias, string emailAddress, bool loginEnabled, IEnumerable<Guid> roles);
+        void Edit(Guid id, string userName, string firstName, string lastName, string alias, string emailAddress, bool loginEnabled, IEnumerable<Guid> roles);
+        void Delete(Guid id);
         void Save();
+
+        IEnumerable<UserRole> GetRolesForUser(Guid id);
     }
 }

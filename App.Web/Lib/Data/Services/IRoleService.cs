@@ -6,12 +6,13 @@ namespace App.Web.Lib.Data.Services
 {
     public interface IRoleService
     {
-        IEnumerable<Role> GetAllRoles();
-        Role GetById(Guid roleId);
-        IEnumerable<UserRole> GetUsersInRole(Guid roleId);
-        void CreateRole(string name, string description);
-        void EditRole(Guid id, string name, string description);
-        void DeleteRole(Guid roleId);
+        IEnumerable<Role> GetAll();
+        Role GetById(Guid id);
+        void Create(string name, string description);
+        void Edit(Guid id, string name, string description);
+        void Delete(Guid id);
         void Save();
+
+        IEnumerable<UserRole> GetUsersInRole(Guid id);
     }
 }

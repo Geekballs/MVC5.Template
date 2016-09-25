@@ -11,13 +11,13 @@ namespace App.Web.Lib.Data.Maps
         {
             #region Table
 
-            ToTable("Role", schemaName: "Security");
+            ToTable("Role", schemaName: "Membership");
 
             #endregion
 
             #region Keys
 
-            HasKey(r => new { r.RoleId });
+            HasKey(k => new { k.RoleId });
 
             #endregion
 
@@ -30,7 +30,7 @@ namespace App.Web.Lib.Data.Maps
             #region Properties
 
             Property(r => r.RoleId).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("IX_RoleId", 1) { IsUnique = true } })).HasColumnName("RoleId").HasColumnOrder(1);
-            Property(r => r.Name).IsRequired().HasMaxLength(100).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("IX_RoleName", 2) { IsUnique = true } })).HasColumnName("Name").HasColumnOrder(2);
+            Property(r => r.Name).IsRequired().HasMaxLength(100).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("IX_Name", 2) { IsUnique = true } })).HasColumnName("Name").HasColumnOrder(2);
             Property(r => r.Description).HasMaxLength(450).IsRequired().HasColumnName("Description").HasColumnOrder(3);
 
             #endregion

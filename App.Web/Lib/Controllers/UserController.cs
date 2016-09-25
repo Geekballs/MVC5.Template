@@ -14,13 +14,13 @@ namespace App.Web.Lib.Controllers
     [Trust(Privilege = "Admin")]
     public class UserController : BaseController
     {
-        private readonly IUserService _userService;
-        private readonly IRoleService _roleService;
+        private readonly IUserService _userSvc;
+        private readonly IRoleService _roleSvc;
 
-        public UserController(IUserService userService, IRoleService roleService)
+        public UserController(IUserService userSvc, IRoleService roleSvc)
         {
-            _userService = userService;
-            _roleService = roleService;
+            _userSvc = userSvc;
+            _roleSvc = roleSvc;
         }
 
         #region Index
@@ -28,25 +28,24 @@ namespace App.Web.Lib.Controllers
         [Route("Users"), HttpGet]
         public ActionResult Index(string term, int? page)
         {
-            var model = _userService.GetAllUsers().Select(u => new UserVm.Index()
+            var model = _userSvc.GetAll().Select(vm => new UserVm.Index
             {
-                UserId = u.UserId,
-                UserName = u.UserName,
-                UserFirstName = u.FirstName,
-                UserLastName = u.LastName,
-                UserAlias = u.Alias,
-                EmailAddress = u.EmailAddress,
-                LoginEnabled = u.LoginEnabled,
-                UserRoleCount = u.UserRoles.Count
+                UserId = vm.UserId,
+                UserName = vm.UserName,
+                UserFirstName = vm.FirstName,
+                UserLastName = vm.LastName,
+                UserAlias = vm.Alias,
+                EmailAddress = vm.EmailAddress,
+                LoginEnabled = vm.LoginEnabled,
+                UserRoleCount = vm.UserRoles.Count
             });
             if (!string.IsNullOrEmpty(term))
             {
-                model = model.Where(s => s.UserName.Contains(term.ToLower()));
+                model = model.Where(p => p.UserName.Contains(term.ToLower()));
             }
             var pageNo = page ?? 1;
             var pagedData = model.ToPagedList(pageNo, AppConfig.PageSize);
             ViewBag.Data = pagedData;
-
             return View("Index", pagedData);
         }
 
@@ -57,7 +56,7 @@ namespace App.Web.Lib.Controllers
         [Route("User-Detail/{id}"), HttpGet]
         public ActionResult Detail(Guid id)
         {
-            var user = _userService.GetById(id);
+            var user = _userSvc.GetById(id);
             if (user == null)
             {
                 GetAlert(Danger, "User cannot be found!");
@@ -73,13 +72,12 @@ namespace App.Web.Lib.Controllers
                 UserEmailAddress = user.EmailAddress,
                 UserLoginEnabled = user.LoginEnabled
             };
-            var userRoles = _userService.GetRolesForUser(id);
-            var roleDetail = userRoles.Select(rd => new UserVm.UserRolesDetail()
+            var userRolesList = _userSvc.GetRolesForUser(id).Select(vm => new UserVm.UserRoles
             {
-                RoleId = rd.RoleId,
-                RoleName = rd.Role.Name
+                RoleId = vm.RoleId,
+                RoleName = vm.Role.Name
             }).ToList();
-            model.UserRolesDetail = roleDetail;
+            model.UserRolesList = userRolesList;
             return View("Detail", model);
         }
 
@@ -91,14 +89,13 @@ namespace App.Web.Lib.Controllers
         public ActionResult Create()
         {
             var model = new UserVm.Create();
-            var roles = _roleService.GetAllRoles();;
-            var roleDetail = roles.Select(rd => new CheckBoxListItem()
+            var rolesList = _roleSvc.GetAll().Select(p => new CheckBoxListItem
             {
-                Id = rd.RoleId,
-                Display = rd.Name,
+                Id = p.RoleId,
+                Display = p.Name,
                 IsChecked = false
             }).ToList();
-            model.Roles = roleDetail;
+            model.RolesList = rolesList;
             return View("Create", model);
         }
 
@@ -107,8 +104,8 @@ namespace App.Web.Lib.Controllers
         {
             if (ModelState.IsValid)
             {
-                var rolesToAdd = model.Roles.Where(r => r.IsChecked).Select(r => r.Id).ToList();
-                _userService.CreateUser(model.UserName, model.UserFirstName, model.UserLastName, model.UserAlias, model.UserEmailAddress, model.UserLoginEnabled, rolesToAdd);
+                var rolesToAdd = model.RolesList.Where(r => r.IsChecked).Select(r => r.Id).ToList();
+                _userSvc.Create(model.UserName, model.UserFirstName, model.UserLastName, model.UserAlias, model.UserEmailAddress, model.UserLoginEnabled, rolesToAdd);
                 GetAlert(Success, "User created!");
                 return RedirectToAction("Index");
             }
@@ -123,7 +120,7 @@ namespace App.Web.Lib.Controllers
         [Route("Edit-User/{id}"), HttpGet]
         public ActionResult Edit(Guid id)
         {
-            var user = _userService.GetById(id);
+            var user = _userSvc.GetById(id);
             if (user == null)
             {
                 GetAlert(Danger, "User cannot be found!");
@@ -139,15 +136,14 @@ namespace App.Web.Lib.Controllers
                 UserEmailAddress = user.EmailAddress,
                 UserLoginEnabled = user.LoginEnabled
             };
-            var userRoles = _userService.GetRolesForUser(id);
-            var roles = _roleService.GetAllRoles();
-            var roleDetail = roles.Select(rd => new CheckBoxListItem()
+            var userRoles = _userSvc.GetRolesForUser(id);
+            var rolesList = _roleSvc.GetAll().Select(vm => new CheckBoxListItem
             {
-                Id = rd.RoleId,
-                Display = rd.Name,
-                IsChecked = userRoles.Any(ur => ur.RoleId == rd.RoleId)
+                Id = vm.RoleId,
+                Display = vm.Name,
+                IsChecked = userRoles.Any(p => p.RoleId == vm.RoleId)
             }).ToList();
-            model.Roles = roleDetail;
+            model.RolesList = rolesList;
             return View("Edit", model);
         }
 
@@ -156,8 +152,8 @@ namespace App.Web.Lib.Controllers
         {
             if (ModelState.IsValid)
             {
-                var rolesToAdd = model.Roles.Where(r => r.IsChecked).Select(r => r.Id).ToList();
-                _userService.EditUser(model.UserId, model.UserName, model.UserFirstName, model.UserLastName, model.UserAlias, model.UserEmailAddress, model.UserLoginEnabled, rolesToAdd);
+                var rolesToAdd = model.RolesList.Where(r => r.IsChecked).Select(r => r.Id).ToList();
+                _userSvc.Edit(model.UserId, model.UserName, model.UserFirstName, model.UserLastName, model.UserAlias, model.UserEmailAddress, model.UserLoginEnabled, rolesToAdd);
                 GetAlert(Success, "User updated!");
                 return RedirectToAction("Index");
             }
@@ -172,7 +168,7 @@ namespace App.Web.Lib.Controllers
         [Route("Delete-User/{id}"), HttpGet]
         public ActionResult Delete(Guid id)
         {
-            var user = _userService.GetById(id);
+            var user = _userSvc.GetById(id);
             if (user == null)
             {
                 GetAlert(Danger, "User cannot be found!");
@@ -196,7 +192,7 @@ namespace App.Web.Lib.Controllers
         {
             if (ModelState.IsValid)
             {
-                _userService.DeleteUser(model.UserId);
+                _userSvc.Delete(model.UserId);
                 GetAlert(Success, "User deleted!");
                 return RedirectToAction("Index");
             }

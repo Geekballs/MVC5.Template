@@ -11,31 +11,31 @@ namespace App.Web.Lib.Data.Maps
         {
             #region Table
 
-            ToTable("User", schemaName: "Security");
+            ToTable("User", schemaName: "Membership");
 
             #endregion
 
             #region Keys
 
-            HasKey(u => new { u.UserId });
+            HasKey(k => new { k.UserId });
 
             #endregion
 
             #region Relationships
 
-            // Nothing to see here!
+            HasMany(r => r.UserRoles).WithRequired(r => r.User);
 
             #endregion
 
             #region Properties
 
-            Property(u => u.UserId).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("IX_UserId", 1) { IsUnique = true } })).HasColumnName("UserId").HasColumnOrder(1);
-            Property(u => u.UserName).IsRequired().HasMaxLength(100).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("IX_UserName", 2) { IsUnique = true } })).HasColumnName("UserName").HasColumnOrder(2);
-            Property(u => u.FirstName).IsRequired().HasMaxLength(100).HasColumnName("FirstName").HasColumnOrder(3);
-            Property(u => u.LastName).IsRequired().HasMaxLength(100).HasColumnName("LastName").HasColumnOrder(4);
-            Property(u => u.Alias).IsRequired().HasMaxLength(100).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("IX_Alias", 3) { IsUnique = true } })).HasColumnName("Alias").HasColumnOrder(5);
-            Property(u => u.EmailAddress).IsRequired().HasMaxLength(200).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("IX_EmailAdress", 4) { IsUnique = true } })).HasColumnName("EmailAddress").HasColumnOrder(6);
-            Property(u => u.LoginEnabled).IsRequired().HasColumnName("LoginEnabled").HasColumnOrder(7);
+            Property(p => p.UserId).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("IX_UserId", 1) { IsUnique = true } })).HasColumnName("UserId").HasColumnOrder(1);
+            Property(p => p.UserName).IsRequired().HasMaxLength(100).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("IX_UserName", 2) { IsUnique = true } })).HasColumnName("UserName").HasColumnOrder(2);
+            Property(p => p.FirstName).IsRequired().HasMaxLength(100).HasColumnName("FirstName").HasColumnOrder(3);
+            Property(p => p.LastName).IsRequired().HasMaxLength(100).HasColumnName("LastName").HasColumnOrder(4);
+            Property(p => p.Alias).IsRequired().HasMaxLength(100).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("IX_Alias", 3) { IsUnique = true } })).HasColumnName("Alias").HasColumnOrder(5);
+            Property(p => p.EmailAddress).IsRequired().HasMaxLength(200).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("IX_EmailAddress", 4) { IsUnique = true } })).HasColumnName("EmailAddress").HasColumnOrder(6);
+            Property(p => p.LoginEnabled).IsRequired().HasColumnName("LoginEnabled").HasColumnOrder(7);
 
             #endregion
         }

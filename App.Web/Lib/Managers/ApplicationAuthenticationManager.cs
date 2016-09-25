@@ -16,7 +16,7 @@ namespace App.Web.Lib.Managers
         {
             using (var ctx = new AppDbContext())
             {
-                var user = ctx.Users.Count(u => u.UserName == name && u.LoginEnabled) > 0;
+                var user = ctx.Users.Count(p => p.UserName == name && p.LoginEnabled) > 0;
                 return user;
             }
         }
@@ -25,7 +25,7 @@ namespace App.Web.Lib.Managers
         {
             using (var ctx = new AppDbContext())
             {
-                var user = ctx.Users.First(u => u.UserName == name);
+                var user = ctx.Users.First(p => p.UserName == name);
                 return user;
             }
         }
@@ -34,7 +34,7 @@ namespace App.Web.Lib.Managers
         {
             using (var ctx = new AppDbContext())
             {
-                var userRoles = ctx.UserRoles.Include(r => r.Role).Where(ur => ur.UserId == userId).ToList();
+                var userRoles = ctx.UserRoles.Include(t => t.Role).Where(p => p.UserId == userId).ToList();
                 return userRoles;
             }
         }

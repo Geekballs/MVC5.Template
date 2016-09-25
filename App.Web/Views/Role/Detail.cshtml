@@ -50,12 +50,12 @@
                                             <span class="fa-stack">
                                                 <i class="fa fa-fw fa-users "></i>
                                             </span>
-                                            Role Users (@Model.RoleUsersDetail.Count)
+                                            Role Users (@Model.RoleUsersList.Count)
                                         </div>
                                         <div class="list-group">
-                                            @if (@Model.RoleUsersDetail.Any())
+                                            @if (@Model.RoleUsersList.Any())
                                             {
-                                                foreach (var i in Model.RoleUsersDetail)
+                                                foreach (var i in Model.RoleUsersList)
                                                 {
                                                     <a href="@Url.Action("Detail", "User", new {id = @i.UserId})" class="list-group-item"><span class="fa fa-fw fa-caret-right"></span><span> @i.UserName</span></a>
                                                 }

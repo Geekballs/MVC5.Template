@@ -5,31 +5,31 @@ using App.Web.Lib.Data.Entities;
 
 namespace App.Web.Lib.Data.Maps
 {
-    public class RoleMap : EntityTypeConfiguration<Role>
+    public class DepartmentMap : EntityTypeConfiguration<Department>
     {
-        public RoleMap()
+        public DepartmentMap()
         {
             #region Table
 
-            ToTable("Role", schemaName: "Membership");
+            ToTable("Department", schemaName: "Membership");
 
             #endregion
 
             #region Keys
 
-            HasKey(k => new { k.RoleId });
+            HasKey(k => new { k.DepartmentId });
 
             #endregion
 
             #region Relationships
 
-            // Nothing to see here!
+            HasMany(x => x.Teams).WithRequired(x => x.Department).WillCascadeOnDelete(false);
 
             #endregion
 
             #region Properties
 
-            Property(p => p.RoleId).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("IX_RoleId", 1) { IsUnique = true } })).HasColumnName("RoleId").HasColumnOrder(1);
+            Property(p => p.DepartmentId).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("IX_DepartmentId", 1) { IsUnique = true } })).HasColumnName("DepartmentId").HasColumnOrder(1);
             Property(p => p.Name).IsRequired().HasMaxLength(100).HasColumnAnnotation("Index", new IndexAnnotation(new[] { new IndexAttribute("IX_Name", 2) { IsUnique = true } })).HasColumnName("Name").HasColumnOrder(2);
             Property(p => p.Description).HasMaxLength(450).IsRequired().HasColumnName("Description").HasColumnOrder(3);
 

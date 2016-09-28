@@ -499,11 +499,17 @@
     <Compile Include="Lib\Controllers\ErrorController.cs" />
     <Compile Include="Lib\Controllers\RoleController.cs" />
     <Compile Include="Lib\Controllers\UserController.cs" />
+    <Compile Include="Lib\Data\Entities\Department.cs" />
     <Compile Include="Lib\Data\Entities\Role.cs" />
+    <Compile Include="Lib\Data\Entities\Team.cs" />
     <Compile Include="Lib\Data\Entities\User.cs" />
+    <Compile Include="Lib\Data\Entities\UserTeam.cs" />
     <Compile Include="Lib\Data\Entities\UserRole.cs" />
+    <Compile Include="Lib\Data\Maps\DepartmentMap.cs" />
+    <Compile Include="Lib\Data\Maps\TeamMap.cs" />
     <Compile Include="Lib\Data\Maps\RoleMap.cs" />
     <Compile Include="Lib\Data\Maps\UserMap.cs" />
+    <Compile Include="Lib\Data\Maps\UserTeamMap.cs" />
     <Compile Include="Lib\Data\Maps\UserRoleMap.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="Lib\Data\Services\IUserService.cs" />

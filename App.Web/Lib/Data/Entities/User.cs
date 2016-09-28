@@ -8,6 +8,7 @@ namespace App.Web.Lib.Data.Entities
         public User()
         {
             UserRoles = new HashSet<UserRole>();
+            UserTeams = new HashSet<UserTeam>();
         }
 
         #region Properties
@@ -25,6 +26,7 @@ namespace App.Web.Lib.Data.Entities
         #region Navigation Properties
 
         public virtual ICollection<UserRole> UserRoles { get; set; }
+        public virtual ICollection<UserTeam> UserTeams { get; set; }
 
         #endregion
     }

@@ -42,7 +42,9 @@ namespace App.Web.Lib.Data.Contexts
         public IDbSet<User> Users { get; set; }
         public IDbSet<Role> Roles { get; set; }
         public IDbSet<UserRole> UserRoles { get; set; }
-
+        public IDbSet<Department> Departments { get; set; }
+        public IDbSet<Team> Teams { get; set; }
+        public IDbSet<UserTeam> UserTeams { get; set; }
         #endregion
     }
 }

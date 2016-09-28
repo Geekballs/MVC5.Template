@@ -24,6 +24,7 @@ namespace App.Web.Lib.Data.Maps
             #region Relationships
 
             HasMany(r => r.UserRoles).WithRequired(r => r.User);
+            HasMany(r => r.UserTeams).WithRequired(r => r.User);
 
             #endregion
 

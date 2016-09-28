@@ -7,57 +7,57 @@ using App.Web.Lib.Data.Entities;
 
 namespace App.Web.Lib.Data.Services
 {
-    public class RoleService : IRoleService, IDisposable
+    public class DepartmentService : IDepartmentService, IDisposable
     {
         private readonly AppDbContext _ctx;
 
-        public RoleService(AppDbContext ctx)
+        public DepartmentService(AppDbContext ctx)
         {
             _ctx = ctx;
         }
 
-        public IEnumerable<Role> GetAll()
+        public IEnumerable<Department> GetAll()
         {
-            var roles = _ctx.Roles.Include(t => t.UserRoles).OrderBy(p => p.Name).ToList();
-            return roles;
+            var depts = _ctx.Departments.Include(t => t.Teams).OrderBy(p => p.Name).ToList();
+            return depts;
         }
 
-        public Role GetById(Guid id)
+        public Department GetById(Guid id)
         {
-            var role = _ctx.Roles.Include(t => t.UserRoles).First(p => p.RoleId == id);
-            return role;
+            var dept = _ctx.Departments.Include(t => t.Teams).First(p => p.DepartmentId == id);
+            return dept;
         }
 
         public void Create(string name, string description)
         {
-            var role = new Role
+            var dept = new Department
             {
                 Name = name,
                 Description = description
             };
-            _ctx.Roles.Add(role);
+            _ctx.Departments.Add(dept);
             _ctx.SaveChanges();
         }
 
         public void Edit(Guid id, string name, string description)
         {
-            var role = _ctx.Roles.First(p => p.RoleId == id);
-            role.Name = name;
-            role.Description = description;
+            var dept = _ctx.Departments.First(p => p.DepartmentId == id);
+            dept.Name = name;
+            dept.Description = description;
             _ctx.SaveChanges();
         }
 
         public void Delete(Guid id)
         {
-            var role = _ctx.Roles.First(p => p.RoleId == id);
-            _ctx.Roles.Remove(role);
+            var dept = _ctx.Departments.First(p => p.DepartmentId == id);
+            _ctx.Departments.Remove(dept);
             _ctx.SaveChanges();
         }
 
-        public IEnumerable<UserRole> GetUsersInRole(Guid id)
+        public IEnumerable<Team> GetTeamsInDepartment(Guid id)
         {
-            var roleUsers = _ctx.UserRoles.Include(t => t.User).Where(p => p.RoleId == id).OrderBy(p => p.User.UserName).ToList();
-            return roleUsers;
+            var deptTeams = _ctx.Teams.Include(t => t.Department).Where(p => p.DepartmentId == id).ToList();
+            return deptTeams;
         }
 
         public void Save()

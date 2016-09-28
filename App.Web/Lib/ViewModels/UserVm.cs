@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using App.Web.Lib.Data.Entities;
 using App.Web.Lib.Models;
 
 namespace App.Web.Lib.ViewModels
@@ -45,12 +46,21 @@ namespace App.Web.Lib.ViewModels
 
             [DisplayName("Roles")]
             public List<UserRoles> UserRolesList { get; set; }
+
+            [DisplayName("Teams")]
+            public List<UserTeams> UserTeamsList { get; set; }
         }
 
         public class UserRoles
         {
             public Guid RoleId { get; set; }
             public string RoleName { get; set; }
+        }
+
+        public class UserTeams
+        {
+            public Guid TeamId { get; set; }
+            public string TeamName { get; set; }
         }
 
         public class Create
@@ -89,6 +99,8 @@ namespace App.Web.Lib.ViewModels
             public bool UserLoginEnabled { get; set; }
 
             public List<CheckBoxListItem> RolesList { get; set; }
+
+            public List<CheckBoxListItem> TeamsList { get; set; }
         }
 
         public class Edit
@@ -129,6 +141,8 @@ namespace App.Web.Lib.ViewModels
             public bool UserLoginEnabled { get; set; }
 
             public List<CheckBoxListItem> RolesList { get; set; }
+
+            public List<CheckBoxListItem> TeamsList { get; set; }
         }
 
         public class Delete

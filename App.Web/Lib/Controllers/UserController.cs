@@ -16,11 +16,13 @@ namespace App.Web.Lib.Controllers
     {
         private readonly IUserService _userSvc;
         private readonly IRoleService _roleSvc;
+        private readonly ITeamService _teamSvc;
 
-        public UserController(IUserService userSvc, IRoleService roleSvc)
+        public UserController(IUserService userSvc, IRoleService roleSvc, ITeamService teamSvc)
         {
             _userSvc = userSvc;
             _roleSvc = roleSvc;
+            _teamSvc = teamSvc;
         }
 
         #region Index
@@ -77,7 +79,13 @@ namespace App.Web.Lib.Controllers
                 RoleId = vm.RoleId,
                 RoleName = vm.Role.Name
             }).ToList();
+            var userTeamsList = _userSvc.GetTeamsForUser(id).Select(vm => new UserVm.UserTeams
+            {
+                TeamId = vm.TeamId,
+                TeamName = vm.Team.Name
+            }).ToList();
             model.UserRolesList = userRolesList;
+            model.UserTeamsList = userTeamsList;
             return View("Detail", model);
         }
 
@@ -95,7 +103,14 @@ namespace App.Web.Lib.Controllers
                 Display = p.Name,
                 IsChecked = false
             }).ToList();
+            var teamsList = _teamSvc.GetAll().Select(p => new CheckBoxListItem
+            {
+                Id = p.TeamId,
+                Display = p.Name,
+                IsChecked = false
+            }).ToList();
             model.RolesList = rolesList;
+            model.TeamsList = teamsList;
             return View("Create", model);
         }
 
@@ -104,8 +119,9 @@ namespace App.Web.Lib.Controllers
         {
             if (ModelState.IsValid)
             {
-                var rolesToAdd = model.RolesList.Where(r => r.IsChecked).Select(r => r.Id).ToList();
-                _userSvc.Create(model.UserName, model.UserFirstName, model.UserLastName, model.UserAlias, model.UserEmailAddress, model.UserLoginEnabled, rolesToAdd);
+                var rolesToAdd = model.RolesList.Where(p => p.IsChecked).Select(r => r.Id).ToList();
+                var teamsToAdd = model.TeamsList.Where(p => p.IsChecked).Select(r => r.Id).ToList();
+                _userSvc.Create(model.UserName, model.UserFirstName, model.UserLastName, model.UserAlias, model.UserEmailAddress, model.UserLoginEnabled, rolesToAdd, teamsToAdd);
                 GetAlert(Success, "User created!");
                 return RedirectToAction("Index");
             }
@@ -143,7 +159,15 @@ namespace App.Web.Lib.Controllers
                 Display = vm.Name,
                 IsChecked = userRoles.Any(p => p.RoleId == vm.RoleId)
             }).ToList();
+            var userTeams = _userSvc.GetTeamsForUser(id);
+            var teamsList = _teamSvc.GetAll().Select(vm => new CheckBoxListItem
+            {
+                Id = vm.TeamId,
+                Display = vm.Name,
+                IsChecked = userTeams.Any(p => p.TeamId == vm.TeamId)
+            }).ToList();
             model.RolesList = rolesList;
+            model.TeamsList = teamsList;
             return View("Edit", model);
         }
 
@@ -152,8 +176,9 @@ namespace App.Web.Lib.Controllers
         {
             if (ModelState.IsValid)
             {
-                var rolesToAdd = model.RolesList.Where(r => r.IsChecked).Select(r => r.Id).ToList();
-                _userSvc.Edit(model.UserId, model.UserName, model.UserFirstName, model.UserLastName, model.UserAlias, model.UserEmailAddress, model.UserLoginEnabled, rolesToAdd);
+                var rolesToAdd = model.RolesList.Where(p => p.IsChecked).Select(r => r.Id).ToList();
+                var teamsToAdd = model.TeamsList.Where(p => p.IsChecked).Select(r => r.Id).ToList();
+                _userSvc.Edit(model.UserId, model.UserName, model.UserFirstName, model.UserLastName, model.UserAlias, model.UserEmailAddress, model.UserLoginEnabled, rolesToAdd, teamsToAdd);
                 GetAlert(Success, "User updated!");
                 return RedirectToAction("Index");
             }

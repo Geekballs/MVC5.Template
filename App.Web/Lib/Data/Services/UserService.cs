@@ -28,9 +28,9 @@ namespace App.Web.Lib.Data.Services
             return user;
         }
 
-        public void Create(string userName, string firstName, string lastName, string alias, string emailAddress, bool loginEnabled, IEnumerable<Guid> roles)
+        public void Create(string userName, string firstName, string lastName, string alias, string emailAddress, bool loginEnabled, IEnumerable<Guid> roles, IEnumerable<Guid> teams)
         {
-            var user = new User()
+            var user = new User
             {
                 UserName = userName,
                 FirstName = firstName,
@@ -39,12 +39,22 @@ namespace App.Web.Lib.Data.Services
                 EmailAddress = emailAddress,
                 LoginEnabled = loginEnabled
             };
+
             foreach (var roleId in roles)
             {
                 var role = _ctx.Roles.Find(roleId);
-                user.UserRoles.Add(new UserRole()
+                user.UserRoles.Add(new UserRole
                 {
                     RoleId = role.RoleId,
+                    UserId = user.UserId
+                });
+            }
+            foreach (var teamId in teams)
+            {
+                var team = _ctx.Teams.Find(teamId);
+                user.UserTeams.Add(new UserTeam
+                {
+                    TeamId = team.TeamId,
                     UserId = user.UserId
                 });
             }
@@ -52,7 +62,7 @@ namespace App.Web.Lib.Data.Services
             _ctx.SaveChanges();
         }
 
-        public void Edit(Guid id, string userName, string firstName, string lastName, string alias, string emailAddress, bool loginEnabled, IEnumerable<Guid> roles)
+        public void Edit(Guid id, string userName, string firstName, string lastName, string alias, string emailAddress, bool loginEnabled, IEnumerable<Guid> roles, IEnumerable<Guid> teams)
         {
             var user = _ctx.Users.First(p => p.UserId == id);
             user.UserName = userName;
@@ -62,14 +72,24 @@ namespace App.Web.Lib.Data.Services
             user.EmailAddress = emailAddress;
             user.LoginEnabled = loginEnabled;
             user.UserRoles.Clear();
+            user.UserTeams.Clear();
             _ctx.SaveChanges();
 
             foreach (var roleId in roles)
             {
                 var role = _ctx.Roles.Find(roleId);
-                user.UserRoles.Add(new UserRole()
+                user.UserRoles.Add(new UserRole
                 {
                     RoleId = role.RoleId,
+                    UserId = user.UserId,
+                });
+            }
+            foreach (var teamId in teams)
+            {
+                var team = _ctx.Teams.Find(teamId);
+                user.UserTeams.Add(new UserTeam
+                {
+                    TeamId = team.TeamId,
                     UserId = user.UserId,
                 });
             }
@@ -87,6 +107,12 @@ namespace App.Web.Lib.Data.Services
         {
             var userRoles = _ctx.UserRoles.Include(t => t.Role).Where(p => p.UserId == id).ToList();
             return userRoles;
+        }
+
+        public IEnumerable<UserTeam> GetTeamsForUser(Guid id)
+        {
+            var userTeams = _ctx.UserTeams.Include(t => t.Team).Where(p => p.UserId == id).ToList();
+            return userTeams;
         }
 
         public void Save()

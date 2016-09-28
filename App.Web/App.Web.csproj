@@ -512,8 +512,12 @@
     <Compile Include="Lib\Data\Maps\UserTeamMap.cs" />
     <Compile Include="Lib\Data\Maps\UserRoleMap.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="Lib\Data\Services\IDepartmentService.cs" />
+    <Compile Include="Lib\Data\Services\ITeamService.cs" />
     <Compile Include="Lib\Data\Services\IUserService.cs" />
     <Compile Include="Lib\Data\Services\IRoleService.cs" />
+    <Compile Include="Lib\Data\Services\DepartmentService.cs" />
+    <Compile Include="Lib\Data\Services\TeamService.cs" />
     <Compile Include="Lib\Data\Services\UserService.cs" />
     <Compile Include="Lib\Data\Services\RoleService.cs" />
     <Compile Include="Lib\Managers\ApplicationAuthenticationManager.cs" />

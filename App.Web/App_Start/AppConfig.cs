@@ -10,6 +10,7 @@ namespace App.Web
         public static readonly string AppEnvironment = ConfigurationManager.AppSettings["brand:AppEnvironment"];
         public static readonly string CompanyName = ConfigurationManager.AppSettings["brand:CompanyName"];
         public static readonly string AppCookie = ConfigurationManager.AppSettings["Auth:AppCookie"];
+        public static readonly bool AutoRegister = bool.Parse(ConfigurationManager.AppSettings["brand:AutoRegister"]);
         public static readonly int PageSize = Convert.ToInt32(ConfigurationManager.AppSettings["View:PageSize"]);
     }
 }

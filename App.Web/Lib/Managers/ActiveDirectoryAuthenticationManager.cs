@@ -7,8 +7,6 @@ namespace App.Web.Lib.Managers
 {
     public class ActiveDirectoryAuthenticationManager
     {
-        private readonly ApplicationAuthenticationManager _avdam = new ApplicationAuthenticationManager();
-
         public class AuthenticationResult
         {
             public AuthenticationResult(string errMessage = null)
@@ -20,11 +18,11 @@ namespace App.Web.Lib.Managers
             public bool IsSuccess => string.IsNullOrEmpty(ErrorMessage);
         }
 
-        private readonly IAuthenticationManager _authManager;
+        private readonly IAuthenticationManager _authMgr;
 
-        public ActiveDirectoryAuthenticationManager(IAuthenticationManager authManager)
+        public ActiveDirectoryAuthenticationManager(IAuthenticationManager authMgr)
         {
-            _authManager = authManager;
+            _authMgr = authMgr;
         }
 
         public AuthenticationResult SignIn(string username, string password)
@@ -43,6 +41,17 @@ namespace App.Web.Lib.Managers
             try
             {
                 isAuthed = principalCtx.ValidateCredentials(username, password, ContextOptions.Negotiate);
+                if (isAuthed && !ApplicationAuthenticationManager.DoesUserExist(username) && AppConfig.AutoRegister.Equals(true))
+                {
+                    // TODO: Get SAM Account details!
+                    var firstName = "";
+                    var lastName = "";
+                    var email = "";
+                    var alias = firstName + " " + lastName;
+                    bool loginEnabled = true;
+
+                    ApplicationAuthenticationManager.CreateUser(username, firstName, lastName, email, alias, loginEnabled);
+                }
                 if (isAuthed && ApplicationAuthenticationManager.GetUserByName(username).LoginEnabled)
                 {
                     userPrincipal = UserPrincipal.FindByIdentity(principalCtx, username);
@@ -75,8 +84,8 @@ namespace App.Web.Lib.Managers
                 return new AuthenticationResult("AD Account Disabled!");
             }
             var identity = CreateIdentity(userPrincipal);
-            _authManager.SignOut(MyAuthentication.ApplicationCookie);
-            _authManager.SignIn(new AuthenticationProperties() { IsPersistent = false }, identity);
+            _authMgr.SignOut(MyAuthentication.ApplicationCookie);
+            _authMgr.SignIn(new AuthenticationProperties() { IsPersistent = false }, identity);
             return new AuthenticationResult();
         }
 

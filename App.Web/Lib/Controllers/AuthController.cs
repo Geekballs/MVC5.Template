@@ -21,15 +21,15 @@ namespace App.Web.Lib.Controllers
             {
                 return View(model);
             }
-            var authManager = HttpContext.GetOwinContext().Authentication;
-            var authService = new ActiveDirectoryAuthenticationManager(authManager);
-            var authResult = authService.SignIn(model.Username, model.Password);
-            if (authResult.IsSuccess)
+            var authMgr = HttpContext.GetOwinContext().Authentication;
+            var authSvc = new ActiveDirectoryAuthenticationManager(authMgr);
+            var authRes = authSvc.SignIn(model.Username, model.Password);
+            if (authRes.IsSuccess)
             {
                 return RedirectToAction("Index", "App");
             }
-            GetAlert(Danger, authResult.ErrorMessage);
-            ModelState.AddModelError("", authResult.ErrorMessage);
+            GetAlert(Danger, authRes.ErrorMessage);
+            ModelState.AddModelError("", authRes.ErrorMessage);
             return View(model);
         }
 
@@ -37,8 +37,8 @@ namespace App.Web.Lib.Controllers
         [ValidateAntiForgeryToken]
         public virtual ActionResult SignOut()
         {
-            var authManager = HttpContext.GetOwinContext().Authentication;
-            authManager.SignOut(MyAuthentication.ApplicationCookie);
+            var authMgr = HttpContext.GetOwinContext().Authentication;
+            authMgr.SignOut(MyAuthentication.ApplicationCookie);
             return RedirectToAction("SignIn", "Auth");
         }
     }

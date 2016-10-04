@@ -12,16 +12,7 @@ namespace App.Web.Lib.Managers
     /// </summary>
     public class ApplicationAuthenticationManager 
     {
-        public static bool IsUserEnabled (string name)
-        {
-            using (var ctx = new AppDbContext())
-            {
-                var user = ctx.Users.Count(p => p.UserName == name && p.LoginEnabled) > 0;
-                return user;
-            }
-        }
-
-        public static bool DoesUserExist(string name)
+        public bool DoesUserExist(string name)
         {
             using (var ctx = new AppDbContext())
             {
@@ -30,7 +21,7 @@ namespace App.Web.Lib.Managers
             }
         }
 
-        public static User GetUserByName(string name)
+        public  User GetUserByName(string name)
         {
             using (var ctx = new AppDbContext())
             {
@@ -39,7 +30,7 @@ namespace App.Web.Lib.Managers
             }
         }
 
-        public static void CreateUser(string name, string firstName, string lastName, string email,  string alias, bool loginEnabled)
+        public void CreateUser(string name, string firstName, string lastName, string email,  string alias, bool loginEnabled)
         {
             using (var ctx = new AppDbContext())
             {

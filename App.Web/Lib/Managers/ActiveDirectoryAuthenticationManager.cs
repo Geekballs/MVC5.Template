@@ -9,6 +9,7 @@ namespace App.Web.Lib.Managers
     public class ActiveDirectoryAuthenticationManager
     {
         private readonly IAuthenticationManager _authMgr;
+        private readonly ApplicationAuthenticationManager _appAuthMgr = new ApplicationAuthenticationManager();
 
         public ActiveDirectoryAuthenticationManager(IAuthenticationManager authMgr)
         {
@@ -31,7 +32,7 @@ namespace App.Web.Lib.Managers
             try
             {
                 isAuthed = principalCtx.ValidateCredentials(username, password, ContextOptions.Negotiate);
-                if (isAuthed && !ApplicationAuthenticationManager.DoesUserExist(username) && AppConfig.AutoRegister.Equals(true))
+                if (isAuthed && !_appAuthMgr.DoesUserExist(username) && AppConfig.AutoRegister.Equals(true))
                 {
                     // TODO: Get SAM Account details!
                     var firstName = "";
@@ -40,9 +41,9 @@ namespace App.Web.Lib.Managers
                     var alias = firstName + " " + lastName;
                     bool loginEnabled = true;
 
-                    ApplicationAuthenticationManager.CreateUser(username, firstName, lastName, email, alias, loginEnabled);
+                    _appAuthMgr.CreateUser(username, firstName, lastName, email, alias, loginEnabled);
                 }
-                if (isAuthed && ApplicationAuthenticationManager.GetUserByName(username).LoginEnabled)
+                if (isAuthed && _appAuthMgr.GetUserByName(username).LoginEnabled)
                 {
                     userPrincipal = UserPrincipal.FindByIdentity(principalCtx, username);
                 }
@@ -54,7 +55,7 @@ namespace App.Web.Lib.Managers
             }
 
             // The user has been authenticated, but they are not enabled in this application.
-            if (isAuthed && !ApplicationAuthenticationManager.GetUserByName(username).LoginEnabled)
+            if (isAuthed && !_appAuthMgr.GetUserByName(username).LoginEnabled)
             {
                 return new AuthenticationResult("Unauthorized Application Access!");
             }
@@ -90,7 +91,7 @@ namespace App.Web.Lib.Managers
                 identity.AddClaim(new Claim(ClaimTypes.Email, userPrincipal.EmailAddress));
             }
 
-            var user = ApplicationAuthenticationManager.GetUserByName(userPrincipal.SamAccountName);
+            var user = _appAuthMgr.GetUserByName(userPrincipal.SamAccountName);
             var userRoles = ApplicationAuthenticationManager.GetRolesForUser(user.UserId);
 
             foreach (var role in userRoles)

@@ -521,6 +521,7 @@
     <Compile Include="Lib\Data\Services\UserService.cs" />
     <Compile Include="Lib\Data\Services\RoleService.cs" />
     <Compile Include="Lib\Managers\ApplicationAuthenticationManager.cs" />
+    <Compile Include="Lib\Results\AuthenticationResult.cs" />
     <Compile Include="Lib\ViewModels\AuthVm.cs" />
     <Compile Include="App_Start\AppConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />

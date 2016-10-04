@@ -10,7 +10,7 @@ namespace App.Web.Lib.Managers
     /// <summary>
     /// Really should be using the IUserService instead of these methods!
     /// </summary>
-    public class ApplicationAuthenticationManager
+    public class ApplicationAuthenticationManager 
     {
         public static bool IsUserEnabled (string name)
         {

@@ -1,23 +1,13 @@
 ﻿using System;
 using System.DirectoryServices.AccountManagement;
 using System.Security.Claims;
+using App.Web.Lib.Results;
 using Microsoft.Owin.Security;
 
 namespace App.Web.Lib.Managers
 {
     public class ActiveDirectoryAuthenticationManager
     {
-        public class AuthenticationResult
-        {
-            public AuthenticationResult(string errMessage = null)
-            {
-                ErrorMessage = errMessage;
-            }
-
-            public string ErrorMessage { get; private set; }
-            public bool IsSuccess => string.IsNullOrEmpty(ErrorMessage);
-        }
-
         private readonly IAuthenticationManager _authMgr;
 
         public ActiveDirectoryAuthenticationManager(IAuthenticationManager authMgr)
